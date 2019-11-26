@@ -1,0 +1,13 @@
+### This is the name the plugin will use when logging and will be the start of the permission ###
+### Example Name: 'SaberCannon' means that permissions will be sabercannon.node ###
+Name: 'SaberCannon'
+### If a player carries this item they cannot be automatically targeted ###
+GhostItem:
+  Material: 'NETHER_STAR'
+  Name: 'Infrared Countermeasure'
+  Lore:
+    - '&bWhile having this in your inventory you'
+    - '&bcannot be seen by the %plugin%'
+  Glow: true
+
+
