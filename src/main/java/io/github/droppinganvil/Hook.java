@@ -1,6 +1,5 @@
 package io.github.droppinganvil;
 
-import com.earth2me.essentials.Essentials;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -10,15 +9,22 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Hook {
+    private static Hook maininstance;
+    public static Hook getInstance() {
+        return maininstance;
+    }
     public VanishPlugins vPlugin = null;
     public boolean fPlugin = false;
     public WorldGuardPlugin wgp = null;
-    public List<String> bR = new ArrayList<>();
+    public List<String> bR = new ArrayList<String>();
 
     public void determinePlugins() {
         PluginManager pm = Bukkit.getServer().getPluginManager();
@@ -29,11 +35,11 @@ public class Hook {
         logHooks();
     }
     public void logHooks() {
-        System.out.print("-------------[" + OrbMain.name + "]--------------\n");
+        System.out.print("-------------[" + OrbMain.getInstance().name + "]--------------\n");
         System.out.print("We have determined what plugins to use!\n");
         System.out.print("Vanish plugin: " + vPlugin.name() + "\n");
         System.out.print("Using Factions: " + fPlugin + "\n");
-        System.out.print("-------------[" + OrbMain.name + "]--------------\n");
+        System.out.print("-------------[" + OrbMain.getInstance().name + "]--------------\n");
     }
     public boolean isVanished(Player player) {
         if (vPlugin == VanishPlugins.PremiumVanish || vPlugin == VanishPlugins.SuperVanish) {
@@ -43,13 +49,13 @@ public class Hook {
             return false;
         }
         if (vPlugin == VanishPlugins.Essentials) {
-            if (Essentials.getUser(player).isVanished()) {return true;} else {return false;}
+            if (player.getActivePotionEffects().contains(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 1, false))) {return true;} else {return false;}
         }
         return false;
     }
     public boolean isPlayerVulnerable(Player player) {
         //God check
-        if (Essentials.getUser(player).isGodModeEnabled()) {return false;}
+        //if (Essentials.getUser(player).isGodModeEnabled()) {return false;}
         //Vanish check
         if (isVanished(player)) {return false;}
         //Safezone check
@@ -67,4 +73,6 @@ public class Hook {
         if (player.getGameMode() != GameMode.SURVIVAL) {return false;}
         return true;
     }
+    //TODO
+    public boolean chargePlayer(Player p, Integer amount) {return true;}
 }

@@ -1,41 +1,53 @@
 package io.github.droppinganvil;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.HashSet;
 import java.util.List;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class Util {
+    public HashSet<String> ghostPlayers = new HashSet<String>();
+    private static Util maininstance;
+    public static Util getInstance() {
+        return maininstance;
+    }
     public ItemStack ghostItem = null;
     public String getString(String path) {
-        String string = OrbMain.getConfig().getString(path);
+        String string = OrbMain.getInstance().getConfig().getString(path);
         string = ChatColor.translateAlternateColorCodes('&', string);
-        if (string.contains("%plugin%")) {string = string.replace("%plugin%", OrbMain.name);}
+        if (string.contains("%plugin%")) {string = string.replace("%plugin%", OrbMain.getInstance().name);}
         return string;
     }
     public List<String> getStringList(String path) {
-        List<String> stringList = OrbMain.getConfig().getStringList(path);
+        List<String> stringList = OrbMain.getInstance().getConfig().getStringList(path);
         int index = 0;
         for (String string : stringList) {
             String editString = string;
             editString = ChatColor.translateAlternateColorCodes('&', string);
-            if (editString.contains("%plugin%")) {editString = editString.replace("%plugin%", OrbMain.name);}
+            if (editString.contains("%plugin%")) {editString = editString.replace("%plugin%", OrbMain.getInstance().name);}
             stringList.set(index, editString);
             index++;
         }
         return stringList;
-
     }
     public ItemStack getGhostItem() {
-        ItemStack x = new ItemStack(Material.matchMaterial(OrbMain.getConfig().getString("GhostItem.Material")), 1);
+        ItemStack x = new ItemStack(Material.matchMaterial(OrbMain.getInstance().getConfig().getString("GhostItem.Material")), 1);
         ItemMeta meta = x.getItemMeta();
         meta.setLore(getStringList("GhostItem.Lore"));
         meta.setDisplayName(getString("GhostItem.Name"));
-        if (OrbMain.getConfig().getBoolean("GhostItem.Glow")) {
+        if (OrbMain.getInstance().getConfig().getBoolean("GhostItem.Glow")) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
@@ -48,8 +60,27 @@ public class Util {
         return false;
     }
     public boolean isGhost(Player player) {
-        if (player.hasPermission(OrbMain.name.toLowerCase() + ".Ghost")) {return true;}
-        //TODO add item check
+        if (player.hasPermission(OrbMain.getInstance().name.toLowerCase() + ".Ghost")) {return true;}
+        if (ghostPlayers.contains(player.getName())) {return true;}
         return false;
+    }
+    public void serveMenu(Player player) {
+    }
+    public void sendPlayerManualInstructions(Player player) {
+        for (String s : getStringList("Messages.InstructionsForManual")) {player.sendMessage(s);}
+    }
+    public void sendInsufficientFunds(Player p) {p.sendMessage(getString("Messages.NotEnoughMoney"));}
+    public void scheduleViewEffectsRemoval(Player p, StrikeOrder so) {
+        BukkitScheduler scheduler = getServer().getScheduler();
+        scheduler.scheduleSyncDelayedTask(OrbMain.getInstance(), () -> setNormal(p, so), OrbMain.getInstance().getConfig().getInt("PlayerView.Time") * 20);
+    }
+    public void setNormal(Player player, StrikeOrder so) {
+        player.teleport(so.getStartLoc());
+        player.setGameMode(GameMode.SURVIVAL);
+        if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {player.removePotionEffect(PotionEffectType.NIGHT_VISION);}
+    }
+    public void makeView(Player player) {
+        player.setGameMode(GameMode.SPECTATOR);
+        if (OrbMain.getInstance().getConfig().getBoolean(""))
     }
 }

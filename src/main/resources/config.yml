@@ -13,6 +13,33 @@ WorldGuard:
   ### Add regions players cant die in so that they will not show up in autotarget ###
   BlacklistedRegions:
     - 'Spawn'
+Messages:
+  InstructionsForManual:
+    - '&bYou have selected manual strike!'
+    - '&bPlease type the coords in chat'
+    - '&7Note: Other players will not see this message.'
+  NotEnoughMoney: '&cSorry, you have insufficient funds.'
+Cost:
+  Manual:
+    StartingPrice: 100000
+    PricePerExtraTNT: 50000
+  Automatic:
+    StartingPrice: 120000
+    PricePerExtraTNT: 100000
+### These settings change how the player gets to view their manual strikes ###
+PlayerView:
+  ### PlayerView will be disabled if you are using Essentials vanish as it would reveal vanished players ###
+  BlocksAboveExplosion: 50
+  NightVision: true
+  ### Time in seconds this player will view the explosion ###
+  Time: 5
+Limits:
+  MaximumTNTPerStrike: 10
+  ### ForcedRegions are good if you would like player to have to go to a certain spot to use the cannon! ###
+  ForcedRegions:
+    Enabled: true
+    Regions:
+      - 'Orbital'
 
 
 
