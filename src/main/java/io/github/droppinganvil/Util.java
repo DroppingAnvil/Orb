@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import java.util.List;
 
 public class Util {
@@ -50,6 +49,7 @@ public class Util {
     }
     public boolean isGhost(Player player) {
         if (player.hasPermission(OrbMain.name.toLowerCase() + ".Ghost")) {return true;}
-
+        //TODO add item check
+        return false;
     }
 }

@@ -9,5 +9,10 @@ GhostItem:
     - '&bWhile having this in your inventory you'
     - '&bcannot be seen by the %plugin%'
   Glow: true
+WorldGuard:
+  ### Add regions players cant die in so that they will not show up in autotarget ###
+  BlacklistedRegions:
+    - 'Spawn'
+
 
 

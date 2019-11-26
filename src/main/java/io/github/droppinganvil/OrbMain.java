@@ -7,5 +7,6 @@ public class OrbMain  extends JavaPlugin {
     @Override
     public void onEnable() {
         Util.ghostItem = Util.getGhostItem();
+        Hook.bR.addAll(getConfig().getStringList("WorldGuard.BlacklistedRegions"));
     }
 }

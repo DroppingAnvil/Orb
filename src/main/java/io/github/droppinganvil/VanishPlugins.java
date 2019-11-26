@@ -4,5 +4,4 @@ public enum VanishPlugins {
     SuperVanish,
     PremiumVanish,
     Essentials,
-    None,
 }

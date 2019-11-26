@@ -4,16 +4,21 @@ import com.earth2me.essentials.Essentials;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Hook {
     public VanishPlugins vPlugin = null;
     public boolean fPlugin = false;
     public WorldGuardPlugin wgp = null;
+    public List<String> bR = new ArrayList<>();
 
     public void determinePlugins() {
         PluginManager pm = Bukkit.getServer().getPluginManager();
@@ -38,7 +43,7 @@ public class Hook {
             return false;
         }
         if (vPlugin == VanishPlugins.Essentials) {
-           if (Essentials.getUser(player).isVanished()) {return true;} else {return false;}
+            if (Essentials.getUser(player).isVanished()) {return true;} else {return false;}
         }
         return false;
     }
@@ -50,6 +55,12 @@ public class Hook {
         //Safezone check
         if (fPlugin) {
             if (Board.getInstance().getFactionAt(new FLocation(player.getLocation())).isSafeZone()) {return false;}
+        }
+        //WorldGuard check
+        Iterator<ProtectedRegion> i = wgp.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).getRegions().iterator();
+        while (i.hasNext()) {
+            if (bR.contains(i.next().getId())) {return false;}
+            i.remove();
         }
         //Vanilla MC Checks
         if (player.isDead()) {return false;}
