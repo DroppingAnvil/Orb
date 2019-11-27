@@ -16,17 +16,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Hook {
-    private static Hook maininstance;
-    public static Hook getInstance() {
-        return maininstance;
-    }
-    public VanishPlugins vPlugin = null;
-    public boolean fPlugin = false;
-    public WorldGuardPlugin wgp = null;
+class Hook {
+    static Hook instance = null;
+    private Hook() {  }
+    private VanishPlugins vPlugin = null;
+    private boolean fPlugin = false;
+    private WorldGuardPlugin wgp = null;
     public List<String> bR = new ArrayList<String>();
-
-    public void determinePlugins() {
+    static public Hook getInstance()
+    {
+        if (instance == null)
+            instance = new Hook();
+        return instance;
+    }
+    void determinePlugins() {
         PluginManager pm = Bukkit.getServer().getPluginManager();
         if (pm.isPluginEnabled("SuperVanish")) {vPlugin = VanishPlugins.SuperVanish;}
         if (pm.isPluginEnabled("PremiumVanish")) {vPlugin = VanishPlugins.PremiumVanish;}
@@ -34,14 +37,14 @@ public class Hook {
         if (pm.isPluginEnabled("Factions")) {fPlugin = true;}
         logHooks();
     }
-    public void logHooks() {
+    void logHooks() {
         System.out.print("-------------[" + OrbMain.getInstance().name + "]--------------\n");
         System.out.print("We have determined what plugins to use!\n");
         System.out.print("Vanish plugin: " + vPlugin.name() + "\n");
         System.out.print("Using Factions: " + fPlugin + "\n");
         System.out.print("-------------[" + OrbMain.getInstance().name + "]--------------\n");
     }
-    public boolean isVanished(Player player) {
+    boolean isVanished(Player player) {
         if (vPlugin == VanishPlugins.PremiumVanish || vPlugin == VanishPlugins.SuperVanish) {
             for (MetadataValue meta : player.getMetadata("vanished")) {
                 if (meta.asBoolean()) return true;
@@ -53,7 +56,7 @@ public class Hook {
         }
         return false;
     }
-    public boolean isPlayerVulnerable(Player player) {
+    boolean isPlayerVulnerable(Player player) {
         //God check
         if (OrbMain.getInstance().ess.getUser(player).isGodModeEnabled()) {return false;}
         //Vanish check
@@ -73,7 +76,7 @@ public class Hook {
         if (player.getGameMode() != GameMode.SURVIVAL) {return false;}
         return true;
     }
-    public boolean chargePlayer(Player p, Integer amount) {
+     boolean chargePlayer(Player p, Integer amount) {
         User u = OrbMain.getInstance().ess.getUser(p);
         if (!u.canAfford(BigDecimal.valueOf(amount))) {return false;}
         u.takeMoney(BigDecimal.valueOf(amount));

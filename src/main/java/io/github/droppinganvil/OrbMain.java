@@ -16,9 +16,12 @@ import java.util.List;
 
 public class OrbMain extends JavaPlugin {
     public String name = "SaberCannon";
-    private static OrbMain maininstance;
+    public static OrbMain instance;
+    public OrbMain() {
+        instance = this;
+    }
     public static OrbMain getInstance() {
-        return maininstance;
+        return instance;
     }
     public HashSet<Player> autotargetable = new HashSet<Player>();
     public HashMap<Player, StrikeOrder> sO = new HashMap<Player, StrikeOrder>();
@@ -29,8 +32,13 @@ public class OrbMain extends JavaPlugin {
     public File left;
     public FileConfiguration leavers;
     public static Essentials ess;
+    public File configfile = new File(getDataFolder() + "/config.yml");
     @Override
     public void onEnable() {
+        if (!configfile.exists()) {
+            this.saveDefaultConfig();
+            this.reloadConfig();
+        }
         getCommand("Strike").setExecutor(new Command());
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListeners(), this);
         Hook.getInstance().determinePlugins();

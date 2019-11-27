@@ -16,11 +16,15 @@ import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
 
-public class Util {
+class Util {
     public HashSet<String> ghostPlayers = new HashSet<String>();
-    private static Util maininstance;
-    public static Util getInstance() {
-        return maininstance;
+    static Util instance = null;
+    private Util() {}
+    static public Util getInstance()
+    {
+        if (instance == null)
+            instance = new Util();
+        return instance;
     }
     public ItemStack ghostItem = null;
     public String getString(String path) {

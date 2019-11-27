@@ -88,17 +88,17 @@ public class MainMenu implements Menu {
 
     public void build() {
         switch (index) {
-            case 1:
+            case 1: {
                 size = config.getInt("GUI.LayerOne.Size");
-            //Generate manual item
-            ItemStack manual = new ItemStack(XMaterial.matchXMaterial(config.getString("GUI.LayerOne.ManualItem.Material")).parseMaterial(), 1);
-            ItemMeta meta = manual.getItemMeta();
-            meta.setDisplayName(Util.getInstance().getString("GUI.LayerOne.ManualItem.Name"));
-            meta.setLore(Util.getInstance().getStringList("GUI.LayerOne.ManualItem.Lore"));
-            manual.setItemMeta(meta);
-            imap.put(config.getInt("GUI.LayerOne.ManualItem.Slot"), manual);
-            map.put(config.getInt("GUI.LayerOne.ManualItem.Slot"), Options.Manual);
-            //Generate auto item
+                //Generate manual item
+                ItemStack manual = new ItemStack(XMaterial.matchXMaterial(config.getString("GUI.LayerOne.ManualItem.Material")).parseMaterial(), 1);
+                ItemMeta meta = manual.getItemMeta();
+                meta.setDisplayName(Util.getInstance().getString("GUI.LayerOne.ManualItem.Name"));
+                meta.setLore(Util.getInstance().getStringList("GUI.LayerOne.ManualItem.Lore"));
+                manual.setItemMeta(meta);
+                imap.put(config.getInt("GUI.LayerOne.ManualItem.Slot"), manual);
+                map.put(config.getInt("GUI.LayerOne.ManualItem.Slot"), Options.Manual);
+                //Generate auto item
                 ItemStack auto = new ItemStack(XMaterial.matchXMaterial(config.getString("GUI.LayerOne.AutoItem.Material")).parseMaterial(), 1);
                 ItemMeta ameta = manual.getItemMeta();
                 ameta.setDisplayName(Util.getInstance().getString("GUI.LayerOne.AutoItem.Name"));
@@ -106,59 +106,10 @@ public class MainMenu implements Menu {
                 manual.setItemMeta(ameta);
                 imap.put(config.getInt("GUI.LayerOne.AutoItem.Slot"), auto);
                 map.put(config.getInt("GUI.LayerOne.AutoItem.Slot"), Options.Autotarget);
-            case 2:
-                //Clear out old build memory
-                imap.clear();
-                map.clear();
-                //Generate payload screen
-                size = config.getInt("GUI.LayerTwo.Size");
-                //Generate payload item
-                ItemStack pay = new ItemStack(XMaterial.matchXMaterial(config.getString("GUI.LayerTwo.PayloadItem.Material")).parseMaterial(), payload);
-                ItemMeta paymeta = pay.getItemMeta();
-                paymeta.setDisplayName(Util.getInstance().getString("GUI.LayerTwo.PayloadItem.Name"));
-                paymeta.setLore(Util.getInstance().getStringList("GUI.LayerTwo.PayloadItem.Lore"));
-                pay.setItemMeta(paymeta);
-                imap.put(config.getInt("GUI.LayerTwo.PayloadItem.Slot"), pay);
-                map.put(config.getInt("GUI.LayerTwo.PayloadItem.Slot"), Options.NonResponsive);
-                //Generate increase item
-                ItemStack up = new ItemStack(XMaterial.matchXMaterial(config.getString("GUI.LayerTwo.IncreaseItem.Material")).parseMaterial(), 1);
-                ItemMeta upmeta = up.getItemMeta();
-                upmeta.setDisplayName(Util.getInstance().getString("GUI.LayerTwo.IncreaseItem.Name"));
-                upmeta.setLore(Util.getInstance().getStringList("GUI.LayerTwo.IncreaseItem.Lore"));
-                up.setItemMeta(upmeta);
-                imap.put(config.getInt("GUI.LayerTwo.IncreaseItem.Slot"), up);
-                map.put(config.getInt("GUI.LayerTwo.IncreaseItem.Slot"), Options.IncreasePayload);
-                //Generate decrease item
-                ItemStack down = new ItemStack(XMaterial.matchXMaterial(config.getString("GUI.LayerTwo.DecreaseItem.Material")).parseMaterial(), 1);
-                ItemMeta downmeta = down.getItemMeta();
-                downmeta.setDisplayName(Util.getInstance().getString("GUI.LayerTwo.DecreaseItem.Name"));
-                downmeta.setLore(Util.getInstance().getStringList("GUI.LayerTwo.DecreaseItem.Lore"));
-                down.setItemMeta(downmeta);
-                imap.put(config.getInt("GUI.LayerTwo.DecreaseItem.Slot"), down);
-                map.put(config.getInt("GUI.LayerTwo.DecreaseItem.Slot"), Options.DecreasePayload);
-                imap.put(config.getInt("GUI.LayerTwo.BackItem.Slot"), back);
-                map.put(config.getInt("GUI.LayerTwo.BackItem.Slot"), Options.Back);
-                imap.put(config.getInt("GUI.LayerTwo.ContinueItem.Slot"), advance);
-                map.put(config.getInt("GUI.LayerTwo.ContinueItem.Slot"), Options.Advance);
-            case 3:
-                //Clear out old build memory
-                imap.clear();
-                map.clear();
-                //Generate player screen
-                size = config.getInt("GUI.LayerThree.Size");
-                int index = 0;
-                for (Player p : OrbMain.getInstance().autotargetable) {
-                    if (Hook.getInstance().isPlayerVulnerable(p)) {
-                        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1);
-                        SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
-                        skullMeta.setOwner(p.getName());
-                        skullMeta.setDisplayName(p.getName());
-                        head.setItemMeta(skullMeta);
-                        imap.put(index, head.clone());
-                        map.put(index++, Options.Head);
-                    }
-                }
+            }
         }
+        System.out.print(index);
+        System.out.print(size);
         in = Bukkit.createInventory(this, size);
         for (Integer i : imap.keySet()) {
             in.setItem(i, imap.get(i));

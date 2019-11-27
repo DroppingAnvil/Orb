@@ -138,7 +138,7 @@ GUI:
 ### Layer three is the player head GUI only show to automatically targeting players ###
   LayerThree:
     Title: '&bSelect Target'
-    Size: 56
+    Size: 54
 ## Layer three has no nav buttons so they have to pick their target ##
   ConfirmationMenu:
     Title: '&bConfirmation'
