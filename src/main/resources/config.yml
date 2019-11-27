@@ -1,51 +1,22 @@
 ### This is the name the plugin will use when logging and will be the start of the permission ###
 ### Example Name: 'SaberCannon' means that permissions will be sabercannon.node ###
 Name: 'SaberCannon'
-### If a player carries this item they cannot be automatically targeted ###
-GhostItem:
-  Material: 'NETHER_STAR'
-  Name: 'Infrared Countermeasure'
-  Lore:
-    - '&bWhile having this in your inventory you'
-    - '&bcannot be seen by the %plugin%'
-  Glow: true
+### If a player carries this item they cannot be automatically targeted half implemented needs speed improvements! ###
+#GhostItem:
+#  Material: 'NETHER_STAR'
+#  Name: 'Infrared Countermeasure'
+#  Lore:
+#    - '&bWhile having this in your inventory you'
+#    - '&bcannot be seen by the %plugin%'
+#  Glow: true
 WorldGuard:
   ### Add regions players cant die in so that they will not show up in autotarget ###
   BlacklistedRegions:
     - 'Spawn'
-Messages:
-  NothingToConfirm: '&bYou do not have anything to confirm.'
-  ClearedStrikes: '&bCleared your StrikeOrder data.'
-  MustBePlayer: 'You must be a player to run this command!'
-  ### You may use %cost% anywhere in the ConfirmMessage ###
-  ConfirmMessage:
-    - '&b&l&oConfirmation'
-    - '&bPlease type &d/strike confirm&b again to confirm'
-    - '&bStrikeOrder cost: &2$%cost%'
-  CannotRunMultipleStrikes:
-    - '&bYou cannot create multiple strikes at once.'
-    - '&bIf you are trying to confirm a strike use &d/strike confirm'
-    - '&bif you would like to make a new strike use &d/strike clear'
-  InstructionsForManual:
-    - '&bYou have selected manual strike!'
-    - '&bPlease type the x and z in chat separated by a space.'
-    - '&7Note: Other players will not see this message.'
-  InstructionsNotFollowedHelp:
-    - '&bPlease only type the X and Z coordinates separated by one space.'
-    - '&bExample: ''56 32'' '
-  ManualCoordsSet:
-    - '&b&l&o Success!'
-    - '&bYour strike coordinates are set to x&d%x%&b,z&d%z%'
-    - '&bWhen you are ready type &d''/strike confirm''&b to continue'
-  NotEnoughMoney: '&cSorry, you have insufficient funds.'
-  AutomaticStrikeReady:
-    - '&b&l&oSuccess!'
-    - '&bYour strike is ready please confirm it using &d/strike confirm'
-  ### This death message is provided when a player is killed by automatic targeting. Available placeholders: %victim% %striker% %plugin% ###
-  DeathMessage: '&c%victim% has been obliterated by %striker%'
-  TargetNotFound:
-    - '&bWe lost track of that target please try again later.'
-    - '&7Note: Players can get out of sight in an instant strike fast!'
+  ForcedRegions:
+    Enabled: false
+    Regions:
+      - 'Orbital'
 Cost:
   Manual:
     StartingPrice: 100000
@@ -72,10 +43,15 @@ Limits:
   TNTPower: 4
   MaximumTNTPerStrike: 64
   ## ForcedRegions are good if you would like player to have to go to a certain spot to use the cannon! ##
-  ForcedRegions:
-    Enabled: false
-    Regions:
-      - 'Orbital'
+  FactionsHook:
+    ### Only disable your factions plugin is not supported as the plugin will automatically determine if the plugin is enabled ###
+    ### Supported plugins: SaberFactions, SavageFactions, FactionsUUID ###
+    Enabled: true
+    ### Determine which system factions the cannon can hit ###
+    SafeZone: false
+    WarZone: true
+    Wild: true
+
 ### This multi layer GUI handles most of the input for players ###
 GUI:
   FillItem:
@@ -155,6 +131,44 @@ GUI:
       Lore:
         - ''
       Slot: 1
+Messages:
+  NothingToConfirm: '&bYou do not have anything to confirm.'
+  ClearedStrikes: '&bCleared your StrikeOrder data.'
+  MustBePlayer: 'You must be a player to run this command!'
+  ### You may use %cost% anywhere in the ConfirmMessage ###
+  ConfirmMessage:
+    - '&b&l&oConfirmation'
+    - '&bPlease type &d/strike confirm&b again to confirm'
+    - '&bStrikeOrder cost: &2$%cost%'
+  CannotRunMultipleStrikes:
+    - '&bYou cannot create multiple strikes at once.'
+    - '&bIf you are trying to confirm a strike use &d/strike confirm'
+    - '&bif you would like to make a new strike use &d/strike clear'
+  InstructionsForManual:
+    - '&bYou have selected manual strike!'
+    - '&bPlease type the x and z in chat separated by a space.'
+    - '&7Note: Other players will not see this message.'
+  InstructionsNotFollowedHelp:
+    - '&bPlease only type the X and Z coordinates separated by one space.'
+    - '&bExample: ''56 32'' '
+  ManualCoordsSet:
+    - '&b&l&o Success!'
+    - '&bYour strike coordinates are set to x&d%x%&b,z&d%z%'
+    - '&bWhen you are ready type &d''/strike confirm''&b to continue'
+  NotEnoughMoney: '&cSorry, you have insufficient funds.'
+  AutomaticStrikeReady:
+    - '&b&l&oSuccess!'
+    - '&bYour strike is ready please confirm it using &d/strike confirm'
+  ### This death message is provided when a player is killed by automatic targeting. Available placeholders: %victim% %striker% %plugin% ###
+  DeathMessage: '&c%victim% has been obliterated by %striker%'
+  TargetNotFound:
+    - '&bWe lost track of that target please try again later.'
+    - '&7Note: Players can get out of sight in an instant strike fast!'
+  NotInWGRegion:
+    - '&cYou cannot access the cannon from this location!'
+    - '&bYou can access the cannon at the Orbital room at spawn.'
+  ForbiddenTargetRegion:
+    - '&cYou cannot strike this location!'
 
 
 

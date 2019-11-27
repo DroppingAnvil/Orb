@@ -63,31 +63,32 @@ class Util {
         return false;
     }
     public boolean isGhost(Player player) {
-        if (player.hasPermission(OrbMain.getInstance().name.toLowerCase() + ".Ghost")) {return true;}
-        if (ghostPlayers.contains(player.getName())) {return true;}
+        //TODO add back when testing complete
+        //if (player.hasPermission(OrbMain.getInstance().name.toLowerCase() + ".Ghost")) {return true;}
+        //if (ghostPlayers.contains(player.getName())) {return true;}
         return false;
-    }
-    public void serveMenu(Player player) {
     }
     public void sendPlayerManualInstructions(Player player) {
         for (String s : getStringList("Messages.InstructionsForManual")) {player.sendMessage(s);}
     }
     public void sendInsufficientFunds(Player p) {p.sendMessage(getString("Messages.NotEnoughMoney"));}
-    public void scheduleViewEffectsRemoval(Player p) {
+    public void scheduleViewEffectsRemoval(Player p, StrikeOrder so) {
         BukkitScheduler scheduler = getServer().getScheduler();
-        scheduler.scheduleSyncDelayedTask(OrbMain.getInstance(), () -> setNormal(p), OrbMain.getInstance().getConfig().getInt("PlayerView.Time") * 20);
+        scheduler.scheduleSyncDelayedTask(OrbMain.getInstance(), () -> setNormal(p, so), OrbMain.getInstance().getConfig().getInt("PlayerView.Time") * 20);
     }
-    public void setNormal(Player player) {
+    public void setNormal(Player player, StrikeOrder so) {
         player.setGameMode(GameMode.SURVIVAL);
         if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {player.removePotionEffect(PotionEffectType.NIGHT_VISION);}
+        player.teleport(so.getOldLoc());
         OrbMain.getInstance().viewing.remove(player);
     }
-    public void makeView(Player player, Location loc) {
+    public void makeView(Player player, Location loc, StrikeOrder so) {
         OrbMain.getInstance().viewing.add(player);
+        so.setOldLoc(player.getLocation());
         player.setGameMode(GameMode.SPECTATOR);
         if (OrbMain.getInstance().getConfig().getBoolean("PlayerView.NightVision")) {player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, OrbMain.getInstance().getConfig().getInt("PlayerView.Time") * 20, 1, false));}
         player.teleport(loc);
-        scheduleViewEffectsRemoval(player);
+        scheduleViewEffectsRemoval(player, so);
     }
     public void sendTargetNotFound(Player player) {
         for (String s : getStringList("Messages.TargetNotFound")) {
@@ -102,9 +103,9 @@ class Util {
     public void sendManualCoordsSet(Player player, StrikeOrder so) {
         for (String s : getStringList("Messages.ManualCoordsSet")) {
             String msg = s;
-            if (s.contains("%x%")) {msg = msg.replace("%x%", String.valueOf(so.getX()));}
-            if (s.contains("%z%")) {msg = msg.replace("%z%", String.valueOf(so.getZ()));}
-            player.sendMessage(s);
+            if (msg.contains("%x%")) {msg = msg.replace("%x%", String.valueOf(so.getX()));}
+            if (msg.contains("%z%")) {msg = msg.replace("%z%", String.valueOf(so.getZ()));}
+            player.sendMessage(msg);
         }
     }
     public void sendPlayerOnly(CommandSender sender) {sender.sendMessage(getString("Messages.MustBePlayer"));}
@@ -122,6 +123,7 @@ class Util {
         for (String s : getStringList("Messages.ConfirmMessage")) {
             String msg = s;
             if (msg.contains("%cost%")) {msg = msg.replace("%cost%", String.valueOf(so.getCost()));}
+            player.sendMessage(msg);
         }
     }
     public void summonHelix(Location loc) {
@@ -132,5 +134,11 @@ class Util {
             Location locc = new Location(loc.getWorld(), loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
             loc.getWorld().playEffect(locc, Effect.COLOURED_DUST, 1);
         }
+    }
+    public void sendForbiddenRegion(Player player) {
+        sendList(getStringList("Messages.ForbiddenTargetRegion"), player);
+    }
+    public void sendNotInWGRegions(Player player) {
+        sendList(getStringList("Messages.NotInWGRegion"), player);
     }
 }

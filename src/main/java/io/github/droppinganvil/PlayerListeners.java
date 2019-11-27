@@ -18,7 +18,6 @@ public class PlayerListeners implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         //No need for UUID checking except for viewing when left as they would have to relog anyways
         if (e.getPlayer().getInventory().contains(Util.getInstance().ghostItem)) {Util.getInstance().ghostPlayers.add(e.getPlayer().getName());}
-        if (!Util.getInstance().isGhost(e.getPlayer()) && !Util.getInstance().ghostPlayers.contains(e.getPlayer().getName())) {OrbMain.getInstance().autotargetable.add(e.getPlayer());}
         if (OrbMain.getInstance().leftDuringView.contains(e.getPlayer().getUniqueId().toString())) {
             e.getPlayer().setGameMode(GameMode.SURVIVAL);
             if (OrbMain.getInstance().getConfig().getString("PlayerView.ExploitPrevention.Strategy").equals("FactionHome")) {
@@ -34,7 +33,6 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
         if (Util.getInstance().ghostPlayers.contains(e.getPlayer().getName())) {Util.getInstance().ghostPlayers.remove(e.getPlayer().getName());}
-    if (OrbMain.getInstance().autotargetable.contains(e.getPlayer().getName())) {OrbMain.getInstance().autotargetable.remove(e.getPlayer().getName());}
     if (OrbMain.getInstance().viewing.contains(e.getPlayer())) {OrbMain.getInstance().leftDuringView.add(e.getPlayer().getUniqueId().toString());}
     if (OrbMain.getInstance().waitingManual.contains(e.getPlayer())) {OrbMain.getInstance().waitingManual.remove(e.getPlayer());}
     if (OrbMain.getInstance().sO.containsKey(e.getPlayer())) {OrbMain.getInstance().sO.remove(e.getPlayer());}
@@ -71,6 +69,7 @@ public class PlayerListeners implements Listener {
             OrbMain.getInstance().sO.get(e.getPlayer()).setXZSet(true);
             Util.getInstance().sendManualCoordsSet(e.getPlayer(), OrbMain.getInstance().sO.get(e.getPlayer()));
             OrbMain.getInstance().waitingManual.remove(e.getPlayer());
+            e.setCancelled(true);
         }
     }
     @EventHandler

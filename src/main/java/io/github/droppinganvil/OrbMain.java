@@ -23,7 +23,6 @@ public class OrbMain extends JavaPlugin {
     public static OrbMain getInstance() {
         return instance;
     }
-    public HashSet<Player> autotargetable = new HashSet<Player>();
     public HashMap<Player, StrikeOrder> sO = new HashMap<Player, StrikeOrder>();
     public HashSet<Player> waitingManual = new HashSet<Player>();
     public HashSet<Player> viewing = new HashSet<>();

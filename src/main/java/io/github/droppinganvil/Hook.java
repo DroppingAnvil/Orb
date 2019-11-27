@@ -15,13 +15,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 class Hook {
     static Hook instance = null;
     private Hook() {  }
     private VanishPlugins vPlugin = null;
     private boolean fPlugin = false;
-    private WorldGuardPlugin wgp = null;
+    public WorldGuardPlugin wgp = null;
     public List<String> bR = new ArrayList<String>();
     static public Hook getInstance()
     {
@@ -34,14 +35,14 @@ class Hook {
         if (pm.isPluginEnabled("SuperVanish")) {vPlugin = VanishPlugins.SuperVanish;}
         if (pm.isPluginEnabled("PremiumVanish")) {vPlugin = VanishPlugins.PremiumVanish;}
         if (vPlugin == null) {vPlugin = VanishPlugins.Essentials;}
-        if (pm.isPluginEnabled("Factions")) {fPlugin = true;}
+        if (pm.isPluginEnabled("Factions") && OrbMain.getInstance().getConfig().getBoolean("FactionsHook.Enabled")) {fPlugin = true;}
         logHooks();
     }
     void logHooks() {
         System.out.print("-------------[" + OrbMain.getInstance().name + "]--------------\n");
         System.out.print("We have determined what plugins to use!\n");
         System.out.print("Vanish plugin: " + vPlugin.name() + "\n");
-        System.out.print("Using Factions: " + fPlugin + "\n");
+        System.out.print("Using Factions: " + String.valueOf(fPlugin).toUpperCase() + "\n");
         System.out.print("-------------[" + OrbMain.getInstance().name + "]--------------\n");
     }
     boolean isVanished(Player player) {
@@ -63,7 +64,7 @@ class Hook {
         if (isVanished(player)) {return false;}
         //Safezone check
         if (fPlugin) {
-            if (Board.getInstance().getFactionAt(new FLocation(player.getLocation())).isSafeZone()) {return false;}
+            if (FactionHook.isLocDenied(player)) {return false;}
         }
         //WorldGuard check
         Iterator<ProtectedRegion> i = wgp.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).getRegions().iterator();

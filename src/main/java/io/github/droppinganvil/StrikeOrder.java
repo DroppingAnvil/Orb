@@ -17,6 +17,7 @@ public class StrikeOrder {
     private int booms;
     private Boolean xzset;
     private Boolean confirmed;
+    private Location oldloc;
     public StrikeOrder(Player p, Integer xX, Integer zZ, Integer cost, @Nullable Player victim, Boolean manual, Integer explosions) {
         x = xX;
         z = zZ;
@@ -36,8 +37,8 @@ public class StrikeOrder {
                 if (Hook.getInstance().chargePlayer(owner, money)) {
                     Location strikeloc = new Location(w, x, w.getHighestBlockYAt(x, z), z);
                     Location viewLoc = new Location(w, x, w.getHighestBlockYAt(x, z) + OrbMain.getInstance().getConfig().getInt("PlayerView.BlocksAboveExplosion"), z);
-                    viewLoc.setPitch(-90);
-                    Util.getInstance().makeView(owner, viewLoc);
+                    viewLoc.setPitch(90);
+                    Util.getInstance().makeView(owner, viewLoc, this);
                     Util.getInstance().summonHelix(strikeloc);
                     while (booms > 0) {
                         w.createExplosion(strikeloc, OrbMain.getInstance().getConfig().getInt("Limits.TNTPower"));
@@ -71,5 +72,7 @@ public class StrikeOrder {
     public Player getTarget() {return target;}
     public Player getOwner() {return target;}
     public Integer getCost() {return money;}
+    public Location getOldLoc() {return oldloc;}
+    public void setOldLoc(Location loc) {oldloc = loc.clone();}
 
 }
