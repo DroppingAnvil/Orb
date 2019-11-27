@@ -11,9 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 public class PlayerListeners implements Listener {
     @EventHandler (ignoreCancelled = true)
@@ -58,6 +56,30 @@ public class PlayerListeners implements Listener {
     }
     @EventHandler (priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent e) {
-        if (OrbMain.getInstance().waitingManual.contains(e.getPlayer())) {}
+        int x = 0;
+        int z = 0;
+        if (OrbMain.getInstance().waitingManual.contains(e.getPlayer())) {
+            if (!e.getMessage().contains(" ")) {Util.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
+            String[] xz = e.getMessage().split(" ");
+            if (xz.length != 2) {Util.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
+            try {
+                x = Integer.valueOf(xz[0]);
+                z = Integer.valueOf(xz[1]);
+            } catch (NumberFormatException ex) {Util.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
+            OrbMain.getInstance().sO.get(e.getPlayer()).setX(x);
+            OrbMain.getInstance().sO.get(e.getPlayer()).setZ(z);
+            Util.getInstance().sendManualCoordsSet(e.getPlayer(), OrbMain.getInstance().sO.get(e.getPlayer()));
+            OrbMain.getInstance().waitingManual.remove(e.getPlayer());
+        }
+    }
+    @EventHandler
+    public void onMove(PlayerMoveEvent e) {
+        if (!OrbMain.getInstance().viewing.contains(e.getPlayer())) {return;}
+        e.setCancelled(true);
+    }
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        if (!OrbMain.getInstance().viewing.contains(e.getPlayer())) {return;}
+        e.setCancelled(true);
     }
 }

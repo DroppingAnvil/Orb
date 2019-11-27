@@ -16,7 +16,8 @@ public class StrikeOrder {
     private Boolean ma;
     private World w;
     private int booms;
-    public StrikeOrder(Player p, Integer xX, Integer zZ, Integer cost, @Nullable Player victim, Boolean manual, World world, Integer explosions) {
+    private Boolean confirmed;
+    public StrikeOrder(Player p, Integer xX, Integer zZ, Integer cost, @Nullable Player victim, Boolean manual, Integer explosions) {
         x = xX;
         z = zZ;
         ma = manual;
@@ -24,7 +25,9 @@ public class StrikeOrder {
         money = cost;
         target = victim;
         booms = explosions;
-        w = world;
+        w = p.getWorld();
+        //Doesnt mean its actually confirmed just first confirmation
+        confirmed = false;
         OrbMain.getInstance().sO.put(owner, this);
     }
     public void doStrike() {
@@ -52,6 +55,12 @@ public class StrikeOrder {
                 } else {Util.getInstance().sendInsufficientFunds(owner); return;}
             }
     }
+    public boolean isConfirmed() {return confirmed;}
+    public void setConfirmed(Boolean b) {confirmed = b;}
+    public int getX() {return x;}
+    public int getZ() {return z;}
+    public void setX(int i) {x = i;}
+    public void setZ(int i) {z = i;}
     public Player getTarget() {return target;}
     public Player getOwner() {return target;}
     public Integer getCost() {return money;}

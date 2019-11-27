@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -90,6 +91,36 @@ public class Util {
     public void sendTargetNotFound(Player player) {
         for (String s : getStringList("Messages.TargetNotFound")) {
             player.sendMessage(s);
+        }
+    }
+    public void sendManualInstructionHelp(Player player) {
+        for (String s : getStringList("Messages.InstructionsNotFollowedHelp")) {
+            player.sendMessage(s);
+        }
+    }
+    public void sendManualCoordsSet(Player player, StrikeOrder so) {
+        for (String s : getStringList("Messages.ManualCoordsSet")) {
+            String msg = s;
+            if (s.contains("%x%")) {msg = msg.replace("%x%", String.valueOf(so.getX()));}
+            if (s.contains("%z%")) {msg = msg.replace("%z%", String.valueOf(so.getZ()));}
+            player.sendMessage(s);
+        }
+    }
+    public void sendPlayerOnly(CommandSender sender) {sender.sendMessage(getString("Messages.MustBePlayer"));}
+    public void sendList(List<String> l, Player player) {
+        for (String s : l) {
+            player.sendMessage(s);
+        }
+    }
+    public void sendNoMultipleStrikes(Player player) {
+        sendList(getStringList("Messages.CannotRunMultipleStrikes"), player);
+    }
+    public void sendClearedMSG(Player player) {player.sendMessage(getString("Messages.ClearedStrikes"));}
+    public void sendNothingToConfirmMSG(Player player) {player.sendMessage(getString("Messages.NothingToConfirm"));}
+    public void sendConfirmationRequest(Player player, StrikeOrder so) {
+        for (String s : getStringList("Messages.ConfirmMessage")) {
+            String msg = s;
+            if (msg.contains("%cost%")) {msg = msg.replace("%cost%", String.valueOf(so.getCost()));}
         }
     }
 }

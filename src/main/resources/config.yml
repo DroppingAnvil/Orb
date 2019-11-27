@@ -14,11 +14,33 @@ WorldGuard:
   BlacklistedRegions:
     - 'Spawn'
 Messages:
+  NothingToConfirm: '&bYou do not have anything to confirm.'
+  ClearedStrikes: '&bCleared your StrikeOrder data.'
+  MustBePlayer: 'You must be a player to run this command!'
+  ### You may use %cost% anywhere in the ConfirmMessage ###
+  ConfirmMessage:
+    - '&b&l&oConfirmation'
+    - '&bPlease type &d/strike confirm&b again to confirm'
+    - '&bStrikeOrder cost: &2$%cost%'
+  CannotRunMultipleStrikes:
+    - '&bYou cannot create multiple strikes at once.'
+    - '&bIf you are trying to confirm a strike use &d/strike confirm'
+    - '&bif you would like to make a new strike use &d/strike clear'
   InstructionsForManual:
     - '&bYou have selected manual strike!'
     - '&bPlease type the x and z in chat separated by a space.'
     - '&7Note: Other players will not see this message.'
+  InstructionsNotFollowedHelp:
+    - '&bPlease only type the X and Z coordinates separated by one space.'
+    - '&bExample: ''56 32'' '
+  ManualCoordsSet:
+    - '&b&l&o Success!'
+    - '&bYour strike coordinates are set to x&d%x%&b,z&d%z%'
+    - '&bWhen you are ready type &d''/strike confirm''&b to continue'
   NotEnoughMoney: '&cSorry, you have insufficient funds.'
+  AutomaticStrikeReady:
+    - '&b&l&oSuccess!'
+    - '&bYour strike is ready please confirm it using &d/strike confirm'
   ### This death message is provided when a player is killed by automatic targeting. Available placeholders: %victim% %striker% %plugin% ###
   DeathMessage: '&c%victim% has been obliterated by %striker%'
   TargetNotFound:
@@ -69,6 +91,8 @@ GUI:
     Name: '&2Continue'
 ## Layer One is where players can choose between auto and manual targeting ##
   LayerOne:
+    ### MineCraft versions <1.13 have access to Titles ### # not implemented yet #
+    Title: '&bChoose Targeting'
     Size: 27
     ManualItem:
       Material: 'EYE_OF_ENDER'
@@ -84,6 +108,7 @@ GUI:
       Slot: 14
 ### Layer Two is where the player will choose their payload ###
   LayerTwo:
+    Title: '&bSelect Payload'
     Size: 9
     IncreaseItem:
       Material: 'GREEN_STAINED_GLASS_PANE'
@@ -98,7 +123,7 @@ GUI:
       Name: '&cPayload'
       Lore:
         - '&bYour current payload.'
-      Slot:
+      Slot: 4
     DecreaseItem:
       Material: 'RED_STAINED_GLASS_PANE'
       Name: '&cDecrease Payload'
@@ -112,6 +137,7 @@ GUI:
       Slot: 8
 ### Layer three is the player head GUI only show to automatically targeting players ###
   LayerThree:
+    Title: '&bSelect Target'
     Size: 56
 ## Layer three has no nav buttons so they have to pick their target ##
 

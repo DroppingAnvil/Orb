@@ -1,7 +1,7 @@
 package io.github.droppinganvil;
 
 import com.earth2me.essentials.Essentials;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -31,6 +31,9 @@ public class OrbMain extends JavaPlugin {
     public static Essentials ess;
     @Override
     public void onEnable() {
+        getCommand("Strike").setExecutor(new Command());
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerListeners(), this);
+        Hook.getInstance().determinePlugins();
         name = getConfig().getString("Name");
         ess = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
         left = new File(getDataFolder() + "/data.yml");

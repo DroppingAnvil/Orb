@@ -8,4 +8,5 @@ public enum Options {
     Back,
     Advance,
     Head,
+    NonResponsive,
 }
