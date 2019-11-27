@@ -1,5 +1,6 @@
 package io.github.droppinganvil;
 
+import com.earth2me.essentials.User;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -12,6 +13,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,13 +51,13 @@ public class Hook {
             return false;
         }
         if (vPlugin == VanishPlugins.Essentials) {
-            if (player.getActivePotionEffects().contains(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 1, false))) {return true;} else {return false;}
+            if (OrbMain.getInstance().ess.getUser(player).isVanished()) {return true;} else {return false;}
         }
         return false;
     }
     public boolean isPlayerVulnerable(Player player) {
         //God check
-        //if (Essentials.getUser(player).isGodModeEnabled()) {return false;}
+        if (OrbMain.getInstance().ess.getUser(player).isGodModeEnabled()) {return false;}
         //Vanish check
         if (isVanished(player)) {return false;}
         //Safezone check
@@ -73,6 +75,10 @@ public class Hook {
         if (player.getGameMode() != GameMode.SURVIVAL) {return false;}
         return true;
     }
-    //TODO
-    public boolean chargePlayer(Player p, Integer amount) {return true;}
+    public boolean chargePlayer(Player p, Integer amount) {
+        User u = OrbMain.getInstance().ess.getUser(p);
+        if (!u.canAfford(BigDecimal.valueOf(amount))) {return false;}
+        u.takeMoney(BigDecimal.valueOf(amount));
+        return true;
+    }
 }

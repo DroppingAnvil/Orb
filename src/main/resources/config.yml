@@ -16,30 +16,107 @@ WorldGuard:
 Messages:
   InstructionsForManual:
     - '&bYou have selected manual strike!'
-    - '&bPlease type the coords in chat'
+    - '&bPlease type the x and z in chat separated by a space.'
     - '&7Note: Other players will not see this message.'
   NotEnoughMoney: '&cSorry, you have insufficient funds.'
+  ### This death message is provided when a player is killed by automatic targeting. Available placeholders: %victim% %striker% %plugin% ###
+  DeathMessage: '&c%victim% has been obliterated by %striker%'
+  TargetNotFound:
+    - '&bWe lost track of that target please try again later.'
+    - '&7Note: Players can get out of sight in an instant strike fast!'
 Cost:
   Manual:
     StartingPrice: 100000
     PricePerExtraTNT: 50000
   Automatic:
     StartingPrice: 120000
-    PricePerExtraTNT: 100000
+    PricePerExtraTNT: 50000
 ### These settings change how the player gets to view their manual strikes ###
 PlayerView:
-  ### PlayerView will be disabled if you are using Essentials vanish as it would reveal vanished players ###
+  ## PlayerView will be disabled if you are using Essentials vanish as it would reveal vanished players ##
   BlocksAboveExplosion: 50
   NightVision: true
-  ### Time in seconds this player will view the explosion ###
+  ## Time in seconds this player will view the explosion ###
   Time: 5
+  ## If a player leaves during the view they are automatically added to a list and saved so when they rejoin the plugin can take action. ##
+  ## If no action is taken the player might just be able to fly around in free mode constantly and teleport large distances ##
+  ## Strategies: Spawn, FactionHome ##
+  ## Spawn: Sets the players gamemode back to survival and teleports them to the world spawn. ##
+  ## FactionHome: If a player is in a faction and is allowed to teleport home they will have their gamemode set to survival and be summoned there. Fallback: Spawn ##
+  ExploitPrevention:
+    Strategy: FactionHome
 Limits:
-  MaximumTNTPerStrike: 10
-  ### ForcedRegions are good if you would like player to have to go to a certain spot to use the cannon! ###
+  ## TNTPower changes how many blocks surrounding the explosions are effected ##
+  TNTPower: 4
+  MaximumTNTPerStrike: 64
+  ## ForcedRegions are good if you would like player to have to go to a certain spot to use the cannon! ##
   ForcedRegions:
-    Enabled: true
+    Enabled: false
     Regions:
       - 'Orbital'
+### This multi layer GUI handles most of the input for players ###
+GUI:
+  FillItem:
+    Material: 'BLACK_STAINED_GLASS_PANE'
+    Name: ''
+    Lore:
+      - ''
+  BackItem:
+    Material: 'RED_STAINED_GLASS_PANE'
+    Name: '&cBack'
+  ContinueItem:
+    Material: 'GREEN_STAINED_GLASS_PANE'
+    Name: '&2Continue'
+## Layer One is where players can choose between auto and manual targeting ##
+  LayerOne:
+    Size: 27
+    ManualItem:
+      Material: 'EYE_OF_ENDER'
+      Name: '&bManual Targeting'
+      Lore:
+        - '&bStrike based on coordinates.'
+      Slot: 12
+    AutoItem:
+      Material: 'BEACON'
+      Name: '&bAutomatic Targeting'
+      Lore:
+        - '&bStrike using precise calculation to target players.'
+      Slot: 14
+### Layer Two is where the player will choose their payload ###
+  LayerTwo:
+    Size: 9
+    IncreaseItem:
+      Material: 'GREEN_STAINED_GLASS_PANE'
+      Name: '&2Increase Payload'
+      Lore:
+        - '&bIncrease the size of your strike!'
+        - '&bManual &2$50,000&b per explosive'
+        - '&bAutomatic &2$75,000&b per explosive'
+      Slot: 3
+    PayloadItem:
+      Material: 'TNT'
+      Name: '&cPayload'
+      Lore:
+        - '&bYour current payload.'
+      Slot:
+    DecreaseItem:
+      Material: 'RED_STAINED_GLASS_PANE'
+      Name: '&cDecrease Payload'
+      Lore:
+        - '&bDecrease the size of your strike.'
+      Slot: 5
+## Navigation items do not require to be re-setup ##
+    BackItem:
+      Slot: 0
+    ContinueItem:
+      Slot: 8
+### Layer three is the player head GUI only show to automatically targeting players ###
+  LayerThree:
+    Size: 56
+## Layer three has no nav buttons so they have to pick their target ##
+
+
+
 
 
 

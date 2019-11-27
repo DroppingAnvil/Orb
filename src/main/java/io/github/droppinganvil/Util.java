@@ -2,6 +2,7 @@ package io.github.droppinganvil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -70,17 +71,25 @@ public class Util {
         for (String s : getStringList("Messages.InstructionsForManual")) {player.sendMessage(s);}
     }
     public void sendInsufficientFunds(Player p) {p.sendMessage(getString("Messages.NotEnoughMoney"));}
-    public void scheduleViewEffectsRemoval(Player p, StrikeOrder so) {
+    public void scheduleViewEffectsRemoval(Player p) {
         BukkitScheduler scheduler = getServer().getScheduler();
-        scheduler.scheduleSyncDelayedTask(OrbMain.getInstance(), () -> setNormal(p, so), OrbMain.getInstance().getConfig().getInt("PlayerView.Time") * 20);
+        scheduler.scheduleSyncDelayedTask(OrbMain.getInstance(), () -> setNormal(p), OrbMain.getInstance().getConfig().getInt("PlayerView.Time") * 20);
     }
-    public void setNormal(Player player, StrikeOrder so) {
-        player.teleport(so.getStartLoc());
+    public void setNormal(Player player) {
         player.setGameMode(GameMode.SURVIVAL);
         if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {player.removePotionEffect(PotionEffectType.NIGHT_VISION);}
+        OrbMain.getInstance().viewing.remove(player);
     }
-    public void makeView(Player player) {
+    public void makeView(Player player, Location loc) {
+        OrbMain.getInstance().viewing.add(player);
         player.setGameMode(GameMode.SPECTATOR);
-        if (OrbMain.getInstance().getConfig().getBoolean(""))
+        if (OrbMain.getInstance().getConfig().getBoolean("PlayerView.NightVision")) {player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, OrbMain.getInstance().getConfig().getInt("PlayerView.Time") * 20, 1, false));}
+        player.teleport(loc);
+        scheduleViewEffectsRemoval(player);
+    }
+    public void sendTargetNotFound(Player player) {
+        for (String s : getStringList("Messages.TargetNotFound")) {
+            player.sendMessage(s);
+        }
     }
 }
