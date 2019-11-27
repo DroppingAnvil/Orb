@@ -1,9 +1,10 @@
 package io.github.droppinganvil;
 
-import jdk.internal.jline.internal.Nullable;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+
+import javax.annotation.Nullable;
 
 public class StrikeOrder {
     private Player owner;
