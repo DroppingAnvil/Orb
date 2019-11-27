@@ -5,8 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Array;
-
 public class StrikeOrder {
     private Player owner;
     private Player target;
@@ -16,6 +14,7 @@ public class StrikeOrder {
     private Boolean ma;
     private World w;
     private int booms;
+    private Boolean xzset;
     private Boolean confirmed;
     public StrikeOrder(Player p, Integer xX, Integer zZ, Integer cost, @Nullable Player victim, Boolean manual, Integer explosions) {
         x = xX;
@@ -28,6 +27,7 @@ public class StrikeOrder {
         w = p.getWorld();
         //Doesnt mean its actually confirmed just first confirmation
         confirmed = false;
+        xzset = false;
         OrbMain.getInstance().sO.put(owner, this);
     }
     public void doStrike() {
@@ -37,24 +37,30 @@ public class StrikeOrder {
                     Location viewLoc = new Location(w, x, w.getHighestBlockYAt(x, z) + OrbMain.getInstance().getConfig().getInt("PlayerView.BlocksAboveExplosion"), z);
                     viewLoc.setPitch(-90);
                     Util.getInstance().makeView(owner, viewLoc);
-                    //TODO add helix
+                    Util.getInstance().summonHelix(strikeloc);
                     while (booms > 0) {
                         w.createExplosion(strikeloc, OrbMain.getInstance().getConfig().getInt("Limits.TNTPower"));
                         booms--;
                     }
+                    OrbMain.getInstance().sO.remove(owner);
                 } else {Util.getInstance().sendInsufficientFunds(owner); return;}
             } else {
                 if (!Hook.getInstance().isPlayerVulnerable(target)) {Util.getInstance().sendTargetNotFound(owner); return;}
                 if (Hook.getInstance().chargePlayer(owner, money)) {
                 OrbMain.getInstance().death.put(target, owner);
+                Util.getInstance().summonHelix(target.getLocation());
                 target.setHealth(0.0);
                 while (booms > 0) {
                     w.createExplosion(target.getLocation(), OrbMain.getInstance().getConfig().getInt("Limits.TNTPower"));
                     booms--;
                 }
+                OrbMain.getInstance().sO.remove(owner);
                 } else {Util.getInstance().sendInsufficientFunds(owner); return;}
             }
     }
+    public boolean isManual() {return ma;}
+    public boolean isXZSet() {return xzset;}
+    public void setXZSet(Boolean b) {xzset = b;}
     public boolean isConfirmed() {return confirmed;}
     public void setConfirmed(Boolean b) {confirmed = b;}
     public int getX() {return x;}

@@ -9,4 +9,6 @@ public enum Options {
     Advance,
     Head,
     NonResponsive,
+    DoStrike,
+    Cancel,
 }

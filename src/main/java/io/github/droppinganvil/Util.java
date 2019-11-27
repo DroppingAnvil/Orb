@@ -1,9 +1,6 @@
 package io.github.droppinganvil;
 
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -121,6 +118,15 @@ public class Util {
         for (String s : getStringList("Messages.ConfirmMessage")) {
             String msg = s;
             if (msg.contains("%cost%")) {msg = msg.replace("%cost%", String.valueOf(so.getCost()));}
+        }
+    }
+    public void summonHelix(Location loc) {
+        int radius = 1;
+        for (double y = 0; y <= 50; y += 0.05) {
+            double x = radius * Math.cos(y);
+            double z = radius * Math.sin(y);
+            Location locc = new Location(loc.getWorld(), loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
+            loc.getWorld().playEffect(locc, Effect.COLOURED_DUST, 1);
         }
     }
 }

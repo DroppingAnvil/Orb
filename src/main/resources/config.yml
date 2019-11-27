@@ -140,6 +140,22 @@ GUI:
     Title: '&bSelect Target'
     Size: 56
 ## Layer three has no nav buttons so they have to pick their target ##
+  ConfirmationMenu:
+    Title: '&bConfirmation'
+    Size: 9
+    ConfirmItem:
+      Material: 'Nether_Star'
+      Name: '&2Confirm your strike'
+      Lore:
+        - ''
+      Slot: 5
+    CancelItem:
+      Material: 'RED_STAINED_GLASS_PANE'
+      Name: '&cCancel your strike'
+      Lore:
+        - ''
+      Slot: 1
+
 
 
 

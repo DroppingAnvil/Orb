@@ -68,6 +68,7 @@ public class PlayerListeners implements Listener {
             } catch (NumberFormatException ex) {Util.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
             OrbMain.getInstance().sO.get(e.getPlayer()).setX(x);
             OrbMain.getInstance().sO.get(e.getPlayer()).setZ(z);
+            OrbMain.getInstance().sO.get(e.getPlayer()).setXZSet(true);
             Util.getInstance().sendManualCoordsSet(e.getPlayer(), OrbMain.getInstance().sO.get(e.getPlayer()));
             OrbMain.getInstance().waitingManual.remove(e.getPlayer());
         }

@@ -24,10 +24,14 @@ public class Command implements CommandExecutor {
                 case "confirm": {
                     if (!(OrbMain.getInstance().sO.containsKey(player))) {Util.getInstance().sendNothingToConfirmMSG(player); return false;}
                     StrikeOrder so = OrbMain.getInstance().sO.get(player);
+                    if (so.isManual() && !so.isXZSet()) {Util.getInstance().sendPlayerManualInstructions(player); return false;}
                     if (so.isConfirmed()) {
-                        //TODO: Confirm GUI
+                        ConfirmMenu confirm = new ConfirmMenu(player);
+                        confirm.build();
+                        player.openInventory(confirm.getInventory());
                     } else {
-
+                        Util.getInstance().sendConfirmationRequest(player, so);
+                        so.setConfirmed(true);
                     }
                 }
             }
