@@ -27,7 +27,7 @@ public class OrbMain extends JavaPlugin {
     public HashMap<Player, StrikeOrder> sO = new HashMap<Player, StrikeOrder>();
     public HashSet<Player> waitingManual = new HashSet<Player>();
     public HashSet<Player> viewing = new HashSet<>();
-    public HashMap<Player, Player> death = new HashMap<>();
+    public HashSet<Player> s = new HashSet<>();
     public List<String> leftDuringView = new ArrayList<>();
     public File left;
     public FileConfiguration leavers;

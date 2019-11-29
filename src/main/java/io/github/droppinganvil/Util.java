@@ -59,7 +59,7 @@ class Util {
     }
     public boolean isOnSurface(Player player) {
         if (player.getLocation() == null) {return false;}
-        if (player.getLocation().getBlockY() - 1 >= player.getWorld().getHighestBlockYAt(player.getLocation())) {return true;}
+        if (player.getLocation().getBlockY() >= player.getWorld().getHighestBlockYAt(player.getLocation())) {return true;}
         return false;
     }
     public boolean isGhost(Player player) {

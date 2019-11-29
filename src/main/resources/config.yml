@@ -29,6 +29,8 @@ Title:
   ### It is suggested to use SaberFactions or the title will get overridden when the player respawns ###
   Enabled: true
   Message: '&4Obliterated'
+### Autorespawns players that have died to the cannon ###
+AutoRespawn: true
 ### These settings change how the player gets to view their manual strikes ###
 PlayerView:
   ## PlayerView will be disabled if you are using Essentials vanish as it would reveal vanished players ##
@@ -128,13 +130,13 @@ GUI:
       Name: '&2Confirm your strike'
       Lore:
         - ''
-      Slot: 5
+      Slot: 4
     CancelItem:
       Material: 'RED_STAINED_GLASS_PANE'
       Name: '&cCancel your strike'
       Lore:
         - ''
-      Slot: 9
+      Slot: 8
 Messages:
   NothingToConfirm: '&bYou do not have anything to confirm.'
   ClearedStrikes: '&bCleared your StrikeOrder data.'

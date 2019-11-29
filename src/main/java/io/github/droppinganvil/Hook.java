@@ -67,7 +67,7 @@ class Hook {
         if (OrbMain.getInstance().ess.getUser(player).isGodModeEnabled()) {return false;}
         //Vanish check
         if (isVanished(player)) {return false;}
-        //Safezone check
+        //Safezones check
         if (fPlugin) {
             if (FactionHook.isLocDenied(player)) {return false;}
         }

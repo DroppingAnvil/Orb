@@ -71,7 +71,8 @@ public class MainMenu implements Menu {
                 break;
             case Advance:
                 if (type.equals(Options.Manual)) {
-                    Integer cost = config.getInt("Costs.Manual.StartingPrice") + config.getInt("Costs.Manual.PricePerExtraTNT") * payload;
+                    Integer cost = config.getInt("Cost.Manual.StartingPrice") + config.getInt("Cost.Manual.PricePerExtraTNT") * payload;
+                    System.out.print(cost);
                     OrbMain.getInstance().sO.put(player, new StrikeOrder(player, 0,0, cost, null, true, payload));
                     OrbMain.getInstance().waitingManual.add(player);
                     player.closeInventory();
@@ -90,7 +91,7 @@ public class MainMenu implements Menu {
             case NonResponsive: {}
             break;
             case Head:
-                int cost = config.getInt("Costs.Automatic.StartingPrice") + config.getInt("Costs.Automatic.PricePerExtraTNT") * payload;
+                int cost = config.getInt("Cost.Automatic.StartingPrice") + config.getInt("Cost.Automatic.PricePerExtraTNT") * payload;
                 OrbMain.getInstance().sO.put(player, new StrikeOrder(player, 0,0, cost, Bukkit.getPlayer(imap.get(slot).getItemMeta().getDisplayName()), false, payload));
                 Util.getInstance().sendAutomaticTargetSet(player);
                 player.closeInventory();
@@ -102,6 +103,7 @@ public class MainMenu implements Menu {
         switch (index) {
             case 1:
                 //Clear out old build memory
+                if (in != null) {in.clear();}
                 imap.clear();
                 map.clear();
                 size = config.getInt("GUI.LayerOne.Size");
@@ -124,6 +126,7 @@ public class MainMenu implements Menu {
                 break;
             case 2:
                 //Clear out old build memory
+                if (in != null) {in.clear();}
                 imap.clear();
                 map.clear();
                 //Generate payload screen
@@ -166,27 +169,25 @@ public class MainMenu implements Menu {
                 int index = 0;
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (Hook.getInstance().isPlayerVulnerable(p)) {
-                        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1);
+                        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
                         SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
                         skullMeta.setOwner(p.getName());
                         skullMeta.setDisplayName(p.getName());
                         head.setItemMeta(skullMeta);
-                        imap.put(index, head.clone());
+                        imap.put(index, head);
                         map.put(index++, Options.Head);
-                        break;
                 }
             }
+                break;
         }
-        System.out.print(index);
-        System.out.print(size);
-        in = Bukkit.createInventory(this, size);
-        for (int fill = 0; fill < size; ++fill) {
-            in.setItem(fill, this.fill);
+            in = Bukkit.createInventory(this, size);
+            for (int fill = 0; fill < size; ++fill) {
+                in.setItem(fill, this.fill);
+            }
+            for (Integer i : imap.keySet()) {
+                in.setItem(i, imap.get(i));
+            }
         }
-        for (Integer i : imap.keySet()) {
-            in.setItem(i, imap.get(i));
-        }
-    }
 
     public Inventory getInventory() {
         return in;

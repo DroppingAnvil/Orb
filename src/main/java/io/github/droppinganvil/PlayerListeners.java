@@ -5,6 +5,7 @@ import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.zcore.fperms.Access;
 import com.massivecraft.factions.zcore.fperms.PermissableAction;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,16 +37,6 @@ public class PlayerListeners implements Listener {
     if (OrbMain.getInstance().viewing.contains(e.getPlayer())) {OrbMain.getInstance().leftDuringView.add(e.getPlayer().getUniqueId().toString());}
     if (OrbMain.getInstance().waitingManual.contains(e.getPlayer())) {OrbMain.getInstance().waitingManual.remove(e.getPlayer());}
     if (OrbMain.getInstance().sO.containsKey(e.getPlayer())) {OrbMain.getInstance().sO.remove(e.getPlayer());}
-    }
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.LOWEST)
-    public void onDeath(PlayerDeathEvent e) {
-        if (OrbMain.getInstance().death.containsKey(e.getEntity())) {
-            String msg = Util.getInstance().getString("Messages.DeathMessage");
-            if (msg.contains("%victim%")) {msg = msg.replace("%victim%", e.getEntity().getName());}
-            if (msg.contains("%striker%")) {msg = msg.replace("%striker%", OrbMain.getInstance().death.get(e.getEntity()).getName());}
-            e.setDeathMessage(msg);
-            OrbMain.getInstance().death.remove(e.getEntity());
-        }
     }
     @EventHandler
     public void onGUI(InventoryClickEvent e) {
@@ -82,5 +73,15 @@ public class PlayerListeners implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         if (!OrbMain.getInstance().viewing.contains(e.getPlayer())) {return;}
         e.setCancelled(true);
+    }
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        if (OrbMain.getInstance().s.contains(e.getEntity())) {
+            e.setDeathMessage(null);
+            OrbMain.getInstance().s.remove(e.getEntity());
+            if (OrbMain.getInstance().getConfig().getBoolean("AutoRespawn")) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(OrbMain.getInstance(), () -> e.getEntity().spigot().respawn(), 1L);
+            }
+        }
     }
 }
