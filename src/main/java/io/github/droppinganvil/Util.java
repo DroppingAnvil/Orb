@@ -17,7 +17,7 @@ import java.util.List;
 import static org.bukkit.Bukkit.getServer;
 
 class Util {
-    public HashSet<String> ghostPlayers = new HashSet<String>();
+    public HashSet<String> ghostPlayers = new HashSet<>();
     static Util instance = null;
     private Util() {}
     static public Util getInstance()
@@ -140,5 +140,18 @@ class Util {
     }
     public void sendNotInWGRegions(Player player) {
         sendList(getStringList("Messages.NotInWGRegion"), player);
+    }
+    public void sendTitleIfEnabled(Player player) {
+        if (!OrbMain.getInstance().getConfig().getBoolean("Title.Enabled")) {return;}
+        player.sendTitle(getString("Title.Message"), "");
+    }
+    public void sendAutomaticTargetSet(Player p) {
+        StrikeOrder so = OrbMain.getInstance().sO.get(p);
+        for (String s : getStringList("Messages.AutomaticTargetSet")) {
+            String msg = s;
+            if (msg.contains("%Target%")) {msg = msg.replace("%Target%", so.getTarget().getName());}
+            if (msg.contains("%TargetDisplayName%")) {msg = msg.replace("%TargetDisplayName%", so.getTarget().getDisplayName());}
+            p.sendMessage(msg);
+        }
     }
 }

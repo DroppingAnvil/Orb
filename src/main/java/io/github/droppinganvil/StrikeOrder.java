@@ -11,7 +11,7 @@ public class StrikeOrder {
     private Player target;
     private int x;
     private int z;
-    private Integer money;
+    private int money;
     private Boolean ma;
     private World w;
     private int booms;
@@ -51,7 +51,9 @@ public class StrikeOrder {
                 if (Hook.getInstance().chargePlayer(owner, money)) {
                 OrbMain.getInstance().death.put(target, owner);
                 Util.getInstance().summonHelix(target.getLocation());
+                FactionHook.tempDisableTitles(target);
                 target.setHealth(0.0);
+                Util.getInstance().sendTitleIfEnabled(target);
                 while (booms > 0) {
                     w.createExplosion(target.getLocation(), OrbMain.getInstance().getConfig().getInt("Limits.TNTPower"));
                     booms--;

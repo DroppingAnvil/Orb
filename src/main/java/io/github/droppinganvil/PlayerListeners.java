@@ -44,6 +44,7 @@ public class PlayerListeners implements Listener {
             if (msg.contains("%victim%")) {msg = msg.replace("%victim%", e.getEntity().getName());}
             if (msg.contains("%striker%")) {msg = msg.replace("%striker%", OrbMain.getInstance().death.get(e.getEntity()).getName());}
             e.setDeathMessage(msg);
+            OrbMain.getInstance().death.remove(e.getEntity());
         }
     }
     @EventHandler

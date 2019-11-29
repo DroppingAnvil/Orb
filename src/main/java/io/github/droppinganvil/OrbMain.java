@@ -1,6 +1,7 @@
 package io.github.droppinganvil;
 
 import com.earth2me.essentials.Essentials;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -57,6 +58,7 @@ public class OrbMain extends JavaPlugin {
         leftDuringView = leavers.getStringList("LeftInView");
         Util.getInstance().ghostItem = Util.getInstance().getGhostItem();
         Hook.getInstance().bR.addAll(getConfig().getStringList("WorldGuard.BlacklistedRegions"));
+        Hook.getInstance().wgp = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
     }
     @Override
     public void onDisable() {

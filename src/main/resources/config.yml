@@ -2,13 +2,13 @@
 ### Example Name: 'SaberCannon' means that permissions will be sabercannon.node ###
 Name: 'SaberCannon'
 ### If a player carries this item they cannot be automatically targeted half implemented needs speed improvements! ###
-#GhostItem:
-#  Material: 'NETHER_STAR'
-#  Name: 'Infrared Countermeasure'
-#  Lore:
-#    - '&bWhile having this in your inventory you'
-#    - '&bcannot be seen by the %plugin%'
-#  Glow: true
+GhostItem:
+  Material: 'NETHER_STAR'
+  Name: 'Infrared Countermeasure'
+  Lore:
+    - '&bWhile having this in your inventory you'
+    - '&bcannot be seen by the %plugin%'
+  Glow: true
 WorldGuard:
   ### Add regions players cant die in so that they will not show up in autotarget ###
   BlacklistedRegions:
@@ -24,6 +24,11 @@ Cost:
   Automatic:
     StartingPrice: 120000
     PricePerExtraTNT: 50000
+Title:
+  ### A title is large text that appears on your screen Ex. when walking into a claim of a different faction ###
+  ### It is suggested to use SaberFactions or the title will get overridden when the player respawns ###
+  Enabled: true
+  Message: '&4Obliterated'
 ### These settings change how the player gets to view their manual strikes ###
 PlayerView:
   ## PlayerView will be disabled if you are using Essentials vanish as it would reveal vanished players ##
@@ -43,20 +48,19 @@ Limits:
   TNTPower: 4
   MaximumTNTPerStrike: 64
   ## ForcedRegions are good if you would like player to have to go to a certain spot to use the cannon! ##
-  FactionsHook:
-    ### Only disable your factions plugin is not supported as the plugin will automatically determine if the plugin is enabled ###
-    ### Supported plugins: SaberFactions, SavageFactions, FactionsUUID ###
-    Enabled: true
-    ### Determine which system factions the cannon can hit ###
-    SafeZone: false
-    WarZone: true
-    Wild: true
-
+FactionsHook:
+  ### Only disable your factions plugin is not supported as the plugin will automatically determine if the plugin is enabled ###
+  ### Supported plugins: SaberFactions, SavageFactions, FactionsUUID ###
+  Enabled: true
+  ### Determine which system factions the cannon can hit ###
+  SafeZone: false
+  WarZone: true
+  Wild: true
 ### This multi layer GUI handles most of the input for players ###
 GUI:
   FillItem:
     Material: 'BLACK_STAINED_GLASS_PANE'
-    Name: ''
+    Name: ' '
     Lore:
       - ''
   BackItem:
@@ -130,7 +134,7 @@ GUI:
       Name: '&cCancel your strike'
       Lore:
         - ''
-      Slot: 1
+      Slot: 9
 Messages:
   NothingToConfirm: '&bYou do not have anything to confirm.'
   ClearedStrikes: '&bCleared your StrikeOrder data.'
@@ -154,7 +158,11 @@ Messages:
   ManualCoordsSet:
     - '&b&l&o Success!'
     - '&bYour strike coordinates are set to x&d%x%&b,z&d%z%'
-    - '&bWhen you are ready type &d''/strike confirm''&b to continue'
+    - '&bWhen you are ready type ''&d/strike confirm&b'' to continue'
+  AutomaticTargetSet:
+    - '&b&l&o Success!'
+    - '&bYour strike target is set to ''&d%TargetDisplayName%&b'' AKA ''&d%Target%&b'''
+    - '&bWhen you are ready type ''&d/strike confirm&b'' to continue'
   NotEnoughMoney: '&cSorry, you have insufficient funds.'
   AutomaticStrikeReady:
     - '&b&l&oSuccess!'

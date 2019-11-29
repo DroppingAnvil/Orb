@@ -32,7 +32,9 @@ public class MainMenu implements Menu {
         fill = XMaterial.matchXMaterial(OrbMain.getInstance().getConfig().getString("GUI.FillItem.Material")).parseItem();
         ItemMeta meta = fill.getItemMeta();
         meta.setDisplayName(Util.getInstance().getString("GUI.FillItem.Name"));
-        meta.setLore(Util.getInstance().getStringList("GUI.FillItem.Lore"));
+        if (!Util.getInstance().getStringList("GUI.FillItem.Lore").get(0).equals("")) {
+            meta.setLore(Util.getInstance().getStringList("GUI.FillItem.Lore"));
+        }
         fill.setItemMeta(meta);
         //Generate nav items
         back = XMaterial.matchXMaterial(config.getString("GUI.BackItem.Material")).parseItem();
@@ -90,6 +92,7 @@ public class MainMenu implements Menu {
             case Head:
                 int cost = config.getInt("Costs.Automatic.StartingPrice") + config.getInt("Costs.Automatic.PricePerExtraTNT") * payload;
                 OrbMain.getInstance().sO.put(player, new StrikeOrder(player, 0,0, cost, Bukkit.getPlayer(imap.get(slot).getItemMeta().getDisplayName()), false, payload));
+                Util.getInstance().sendAutomaticTargetSet(player);
                 player.closeInventory();
                 break;
         }
@@ -177,6 +180,9 @@ public class MainMenu implements Menu {
         System.out.print(index);
         System.out.print(size);
         in = Bukkit.createInventory(this, size);
+        for (int fill = 0; fill < size; ++fill) {
+            in.setItem(fill, this.fill);
+        }
         for (Integer i : imap.keySet()) {
             in.setItem(i, imap.get(i));
         }
