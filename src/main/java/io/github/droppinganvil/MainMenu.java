@@ -31,19 +31,19 @@ public class MainMenu implements Menu {
         index = 1;
         fill = XMaterial.matchXMaterial(OrbMain.getInstance().getConfig().getString("GUI.FillItem.Material")).parseItem();
         ItemMeta meta = fill.getItemMeta();
-        meta.setDisplayName(Util.getInstance().getString("GUI.FillItem.Name"));
-        if (!Util.getInstance().getStringList("GUI.FillItem.Lore").get(0).equals("")) {
-            meta.setLore(Util.getInstance().getStringList("GUI.FillItem.Lore"));
+        meta.setDisplayName(OrbUtil.getInstance().getString("GUI.FillItem.Name"));
+        if (!OrbUtil.getInstance().getStringList("GUI.FillItem.Lore").get(0).equals("")) {
+            meta.setLore(OrbUtil.getInstance().getStringList("GUI.FillItem.Lore"));
         }
         fill.setItemMeta(meta);
         //Generate nav items
         back = XMaterial.matchXMaterial(config.getString("GUI.BackItem.Material")).parseItem();
         ItemMeta bmeta = back.getItemMeta();
-        bmeta.setDisplayName(Util.getInstance().getString("GUI.BackItem.Name"));
+        bmeta.setDisplayName(OrbUtil.getInstance().getString("GUI.BackItem.Name"));
         back.setItemMeta(bmeta);
         advance = XMaterial.matchXMaterial(config.getString("GUI.ContinueItem.Material")).parseItem();
         ItemMeta ameta = advance.getItemMeta();
-        ameta.setDisplayName(Util.getInstance().getString("GUI.ContinueItem.Name"));
+        ameta.setDisplayName(OrbUtil.getInstance().getString("GUI.ContinueItem.Name"));
         advance.setItemMeta(ameta);
     }
     public void buildAndRefresh() {
@@ -76,7 +76,7 @@ public class MainMenu implements Menu {
                     OrbMain.getInstance().sO.put(player, new StrikeOrder(player, 0,0, cost, null, true, payload));
                     OrbMain.getInstance().waitingManual.add(player);
                     player.closeInventory();
-                    Util.getInstance().sendPlayerManualInstructions(player);
+                    OrbUtil.getInstance().sendPlayerManualInstructions(player);
                     return;
                 }
                 index++;
@@ -93,7 +93,7 @@ public class MainMenu implements Menu {
             case Head:
                 int cost = config.getInt("Cost.Automatic.StartingPrice") + config.getInt("Cost.Automatic.PricePerExtraTNT") * payload;
                 OrbMain.getInstance().sO.put(player, new StrikeOrder(player, 0,0, cost, Bukkit.getPlayer(imap.get(slot).getItemMeta().getDisplayName()), false, payload));
-                Util.getInstance().sendAutomaticTargetSet(player);
+                OrbUtil.getInstance().sendAutomaticTargetSet(player);
                 player.closeInventory();
                 break;
         }
@@ -110,16 +110,16 @@ public class MainMenu implements Menu {
                 //Generate manual item
                 ItemStack manual = XMaterial.matchXMaterial(config.getString("GUI.LayerOne.ManualItem.Material")).parseItem();
                 ItemMeta meta = manual.getItemMeta();
-                meta.setDisplayName(Util.getInstance().getString("GUI.LayerOne.ManualItem.Name"));
-                meta.setLore(Util.getInstance().getStringList("GUI.LayerOne.ManualItem.Lore"));
+                meta.setDisplayName(OrbUtil.getInstance().getString("GUI.LayerOne.ManualItem.Name"));
+                meta.setLore(OrbUtil.getInstance().getStringList("GUI.LayerOne.ManualItem.Lore"));
                 manual.setItemMeta(meta);
                 imap.put(config.getInt("GUI.LayerOne.ManualItem.Slot"), manual);
                 map.put(config.getInt("GUI.LayerOne.ManualItem.Slot"), Options.Manual);
                 //Generate auto item
                 ItemStack auto = XMaterial.matchXMaterial(config.getString("GUI.LayerOne.AutoItem.Material")).parseItem();
                 ItemMeta ameta = manual.getItemMeta();
-                ameta.setDisplayName(Util.getInstance().getString("GUI.LayerOne.AutoItem.Name"));
-                ameta.setLore(Util.getInstance().getStringList("GUI.LayerOne.AutoItem.Lore"));
+                ameta.setDisplayName(OrbUtil.getInstance().getString("GUI.LayerOne.AutoItem.Name"));
+                ameta.setLore(OrbUtil.getInstance().getStringList("GUI.LayerOne.AutoItem.Lore"));
                 auto.setItemMeta(ameta);
                 imap.put(config.getInt("GUI.LayerOne.AutoItem.Slot"), auto);
                 map.put(config.getInt("GUI.LayerOne.AutoItem.Slot"), Options.Autotarget);
@@ -134,24 +134,24 @@ public class MainMenu implements Menu {
                 //Generate payload item
                 ItemStack pay = new ItemStack(XMaterial.matchXMaterial(config.getString("GUI.LayerTwo.PayloadItem.Material")).parseMaterial(), payload);
                 ItemMeta paymeta = pay.getItemMeta();
-                paymeta.setDisplayName(Util.getInstance().getString("GUI.LayerTwo.PayloadItem.Name"));
-                paymeta.setLore(Util.getInstance().getStringList("GUI.LayerTwo.PayloadItem.Lore"));
+                paymeta.setDisplayName(OrbUtil.getInstance().getString("GUI.LayerTwo.PayloadItem.Name"));
+                paymeta.setLore(OrbUtil.getInstance().getStringList("GUI.LayerTwo.PayloadItem.Lore"));
                 pay.setItemMeta(paymeta);
                 imap.put(config.getInt("GUI.LayerTwo.PayloadItem.Slot"), pay);
                 map.put(config.getInt("GUI.LayerTwo.PayloadItem.Slot"), Options.NonResponsive);
                 //Generate increase item
                 ItemStack up = XMaterial.matchXMaterial(config.getString("GUI.LayerTwo.IncreaseItem.Material")).parseItem();
                 ItemMeta upmeta = up.getItemMeta();
-                upmeta.setDisplayName(Util.getInstance().getString("GUI.LayerTwo.IncreaseItem.Name"));
-                upmeta.setLore(Util.getInstance().getStringList("GUI.LayerTwo.IncreaseItem.Lore"));
+                upmeta.setDisplayName(OrbUtil.getInstance().getString("GUI.LayerTwo.IncreaseItem.Name"));
+                upmeta.setLore(OrbUtil.getInstance().getStringList("GUI.LayerTwo.IncreaseItem.Lore"));
                 up.setItemMeta(upmeta);
                 imap.put(config.getInt("GUI.LayerTwo.IncreaseItem.Slot"), up);
                 map.put(config.getInt("GUI.LayerTwo.IncreaseItem.Slot"), Options.IncreasePayload);
                 //Generate decrease item
                 ItemStack down = XMaterial.matchXMaterial(config.getString("GUI.LayerTwo.DecreaseItem.Material")).parseItem();
                 ItemMeta downmeta = down.getItemMeta();
-                downmeta.setDisplayName(Util.getInstance().getString("GUI.LayerTwo.DecreaseItem.Name"));
-                downmeta.setLore(Util.getInstance().getStringList("GUI.LayerTwo.DecreaseItem.Lore"));
+                downmeta.setDisplayName(OrbUtil.getInstance().getString("GUI.LayerTwo.DecreaseItem.Name"));
+                downmeta.setLore(OrbUtil.getInstance().getStringList("GUI.LayerTwo.DecreaseItem.Lore"));
                 down.setItemMeta(downmeta);
                 imap.put(config.getInt("GUI.LayerTwo.DecreaseItem.Slot"), down);
                 map.put(config.getInt("GUI.LayerTwo.DecreaseItem.Slot"), Options.DecreasePayload);

@@ -1,8 +1,6 @@
 package io.github.droppinganvil;
 
 import com.earth2me.essentials.User;
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.FLocation;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
@@ -82,7 +80,7 @@ class Hook {
         //Vanilla MC Checks
         if (player.isDead()) {return false;}
         if (player.getGameMode() != GameMode.SURVIVAL) {return false;}
-        if (!Util.getInstance().isOnSurface(player)) {return false;}
+        if (!OrbUtil.getInstance().isOnSurface(player)) {return false;}
         return true;
     }
      boolean chargePlayer(Player p, Integer amount) {

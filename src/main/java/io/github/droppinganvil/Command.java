@@ -12,7 +12,8 @@ public class Command implements CommandExecutor {
     List<String> regions = OrbMain.getInstance().getConfig().getStringList("WorldGuard.ForcedRegions.Regions");
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String s, String[] args) {
-        if (!(sender instanceof Player)) {Util.getInstance().sendPlayerOnly(sender);}
+        if (!(sender instanceof Player)) {
+            OrbUtil.getInstance().sendPlayerOnly(sender);}
         Player player = (Player) sender;
         if (OrbMain.getInstance().getConfig().getBoolean("WorldGuard.ForcedRegions.Enabled")) {
             Iterator<ProtectedRegion> i = Hook.getInstance().wgp.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).getRegions().iterator();
@@ -21,7 +22,8 @@ public class Command implements CommandExecutor {
                 if (regions.contains(i.next().getId())) {r = false;}
                 i.remove();
             }
-            if (r) {Util.getInstance().sendNotInWGRegions(player); return false;}
+            if (r) {
+                OrbUtil.getInstance().sendNotInWGRegions(player); return false;}
         }
 
         if (args.length == 1) {
@@ -33,26 +35,28 @@ public class Command implements CommandExecutor {
                     if (OrbMain.getInstance().waitingManual.contains(player)) {
                         OrbMain.getInstance().waitingManual.remove(player);
                     }
-                    Util.getInstance().sendClearedMSG(player);
+                    OrbUtil.getInstance().sendClearedMSG(player);
                     return false;
                 }
                 case "confirm": {
-                    if (!(OrbMain.getInstance().sO.containsKey(player))) {Util.getInstance().sendNothingToConfirmMSG(player); return false;}
+                    if (!(OrbMain.getInstance().sO.containsKey(player))) {
+                        OrbUtil.getInstance().sendNothingToConfirmMSG(player); return false;}
                     StrikeOrder so = OrbMain.getInstance().sO.get(player);
-                    if (so.isManual() && !so.isXZSet()) {Util.getInstance().sendPlayerManualInstructions(player); return false;}
+                    if (so.isManual() && !so.isXZSet()) {
+                        OrbUtil.getInstance().sendPlayerManualInstructions(player); return false;}
                     if (so.isConfirmed()) {
                         ConfirmMenu confirm = new ConfirmMenu(player);
                         confirm.build();
                         player.openInventory(confirm.getInventory());
                     } else {
-                        Util.getInstance().sendConfirmationRequest(player, so);
+                        OrbUtil.getInstance().sendConfirmationRequest(player, so);
                         so.setConfirmed(true);
                     }
                 }
             }
         }
         if (args.length == 0) { if (OrbMain.getInstance().sO.containsKey(player)) {
-            Util.getInstance().sendNoMultipleStrikes(player);} else {
+            OrbUtil.getInstance().sendNoMultipleStrikes(player);} else {
             MainMenu menu = new MainMenu(player);
             menu.build();
             player.openInventory(menu.getInventory());

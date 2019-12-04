@@ -4,13 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
 
 public class StrikeOrder {
     private Player owner;
@@ -44,29 +38,32 @@ public class StrikeOrder {
                     Location strikeloc = new Location(w, x, w.getHighestBlockYAt(x, z), z);
                     Location viewLoc = new Location(w, x, w.getHighestBlockYAt(x, z) + OrbMain.getInstance().getConfig().getInt("PlayerView.BlocksAboveExplosion"), z);
                     viewLoc.setPitch(90);
-                    Util.getInstance().makeView(owner, viewLoc, this);
-                    Util.getInstance().summonHelix(strikeloc);
+                    OrbUtil.getInstance().makeView(owner, viewLoc, this);
+                    OrbUtil.getInstance().summonHelix(strikeloc);
                     while (booms > 0) {
                         w.createExplosion(strikeloc, OrbMain.getInstance().getConfig().getInt("Limits.TNTPower"));
                         booms--;
                     }
                     OrbMain.getInstance().sO.remove(owner);
-                } else {Util.getInstance().sendInsufficientFunds(owner); return;}
+                } else {
+                    OrbUtil.getInstance().sendInsufficientFunds(owner); return;}
             } else {
-                if (!Hook.getInstance().isPlayerVulnerable(target)) {Util.getInstance().sendTargetNotFound(owner); return;}
+                if (!Hook.getInstance().isPlayerVulnerable(target)) {
+                    OrbUtil.getInstance().sendTargetNotFound(owner); return;}
                 if (Hook.getInstance().chargePlayer(owner, money)) {
-                Util.getInstance().summonHelix(target.getLocation());
+                OrbUtil.getInstance().summonHelix(target.getLocation());
                 FactionHook.tempDisableTitles(target);
                 OrbMain.getInstance().s.add(target);
                 target.setHealth(0.0);
                 Bukkit.broadcastMessage(getDeathMesaage());
-                Util.getInstance().sendTitleIfEnabled(target);
+                OrbUtil.getInstance().sendTitleIfEnabled(target);
                 while (booms > 0) {
                     w.createExplosion(target.getLocation(), OrbMain.getInstance().getConfig().getInt("Limits.TNTPower"));
                     booms--;
                 }
                 OrbMain.getInstance().sO.remove(owner);
-                } else {Util.getInstance().sendInsufficientFunds(owner); return;}
+                } else {
+                    OrbUtil.getInstance().sendInsufficientFunds(owner); return;}
             }
     }
     public boolean isManual() {return ma;}
@@ -84,7 +81,7 @@ public class StrikeOrder {
     public Location getOldLoc() {return oldloc;}
     public void setOldLoc(Location loc) {oldloc = loc.clone();}
     public String getDeathMesaage() {
-        String msg = Util.getInstance().getString("Messages.DeathMessage");
+        String msg = OrbUtil.getInstance().getString("Messages.DeathMessage");
         if (msg.contains("%victim%")) {msg = msg.replace("%victim%", target.getName());}
         if (msg.contains("%striker%")) {msg = msg.replace("%striker%", owner.getName());}
         return msg;

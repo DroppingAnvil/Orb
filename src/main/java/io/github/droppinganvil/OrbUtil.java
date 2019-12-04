@@ -16,14 +16,14 @@ import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
 
-class Util {
+class OrbUtil {
     public HashSet<String> ghostPlayers = new HashSet<>();
-    static Util instance = null;
-    private Util() {}
-    static public Util getInstance()
+    static OrbUtil instance = null;
+    private OrbUtil() {}
+    static public OrbUtil getInstance()
     {
         if (instance == null)
-            instance = new Util();
+            instance = new OrbUtil();
         return instance;
     }
     public ItemStack ghostItem = null;

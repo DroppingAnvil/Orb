@@ -56,7 +56,7 @@ public class OrbMain extends JavaPlugin {
         }
         leavers = YamlConfiguration.loadConfiguration(left);
         leftDuringView = leavers.getStringList("LeftInView");
-        Util.getInstance().ghostItem = Util.getInstance().getGhostItem();
+        OrbUtil.getInstance().ghostItem = OrbUtil.getInstance().getGhostItem();
         Hook.getInstance().bR.addAll(getConfig().getStringList("WorldGuard.BlacklistedRegions"));
         Hook.getInstance().wgp = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
     }

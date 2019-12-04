@@ -25,9 +25,9 @@ public class ConfirmMenu implements Menu {
         user = player;
         fill = XMaterial.matchXMaterial(OrbMain.getInstance().getConfig().getString("GUI.FillItem.Material")).parseItem();
         ItemMeta meta = fill.getItemMeta();
-        meta.setDisplayName(Util.getInstance().getString("GUI.FillItem.Name"));
-        if (!Util.getInstance().getStringList("GUI.FillItem.Lore").get(0).equals("")) {
-            meta.setLore(Util.getInstance().getStringList("GUI.FillItem.Lore"));
+        meta.setDisplayName(OrbUtil.getInstance().getString("GUI.FillItem.Name"));
+        if (!OrbUtil.getInstance().getStringList("GUI.FillItem.Lore").get(0).equals("")) {
+            meta.setLore(OrbUtil.getInstance().getStringList("GUI.FillItem.Lore"));
         }
         fill.setItemMeta(meta);
     }
@@ -48,15 +48,15 @@ public class ConfirmMenu implements Menu {
     public void build() {
         ItemStack confirm = XMaterial.matchXMaterial(conf.getString("GUI.ConfirmationMenu.ConfirmItem.Material")).parseItem();
         ItemMeta confirmmeta = confirm.getItemMeta();
-        confirmmeta.setDisplayName(Util.getInstance().getString("GUI.ConfirmationMenu.ConfirmItem.Name"));
-        confirmmeta.setLore(Util.getInstance().getStringList("GUI.ConfirmationMenu.ConfirmItem.Lore"));
+        confirmmeta.setDisplayName(OrbUtil.getInstance().getString("GUI.ConfirmationMenu.ConfirmItem.Name"));
+        confirmmeta.setLore(OrbUtil.getInstance().getStringList("GUI.ConfirmationMenu.ConfirmItem.Lore"));
         confirm.setItemMeta(confirmmeta);
         map.put(conf.getInt("GUI.ConfirmationMenu.ConfirmItem.Slot"), Options.DoStrike);
         imap.put(conf.getInt("GUI.ConfirmationMenu.ConfirmItem.Slot"), confirm);
         ItemStack cancel = XMaterial.matchXMaterial(conf.getString("GUI.ConfirmationMenu.CancelItem.Material")).parseItem();
         ItemMeta cancelmeta = cancel.getItemMeta();
-        cancelmeta.setDisplayName(Util.getInstance().getString("GUI.ConfirmationMenu.CancelItem.Name"));
-        cancelmeta.setLore(Util.getInstance().getStringList("GUI.ConfirmationMenu.CancelItem.Lore"));
+        cancelmeta.setDisplayName(OrbUtil.getInstance().getString("GUI.ConfirmationMenu.CancelItem.Name"));
+        cancelmeta.setLore(OrbUtil.getInstance().getStringList("GUI.ConfirmationMenu.CancelItem.Lore"));
         cancel.setItemMeta(cancelmeta);
         map.put(conf.getInt("GUI.ConfirmationMenu.CancelItem.Slot"), Options.Cancel);
         imap.put(conf.getInt("GUI.ConfirmationMenu.CancelItem.Slot"), cancel);

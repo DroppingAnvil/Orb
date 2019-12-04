@@ -18,7 +18,8 @@ public class PlayerListeners implements Listener {
     @EventHandler (ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent e) {
         //No need for UUID checking except for viewing when left as they would have to relog anyways
-        if (e.getPlayer().getInventory().contains(Util.getInstance().ghostItem)) {Util.getInstance().ghostPlayers.add(e.getPlayer().getName());}
+        if (e.getPlayer().getInventory().contains(OrbUtil.getInstance().ghostItem)) {
+            OrbUtil.getInstance().ghostPlayers.add(e.getPlayer().getName());}
         if (OrbMain.getInstance().leftDuringView.contains(e.getPlayer().getUniqueId().toString())) {
             e.getPlayer().setGameMode(GameMode.SURVIVAL);
             if (OrbMain.getInstance().getConfig().getString("PlayerView.ExploitPrevention.Strategy").equals("FactionHome")) {
@@ -33,7 +34,8 @@ public class PlayerListeners implements Listener {
     }
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
-        if (Util.getInstance().ghostPlayers.contains(e.getPlayer().getName())) {Util.getInstance().ghostPlayers.remove(e.getPlayer().getName());}
+        if (OrbUtil.getInstance().ghostPlayers.contains(e.getPlayer().getName())) {
+            OrbUtil.getInstance().ghostPlayers.remove(e.getPlayer().getName());}
     if (OrbMain.getInstance().viewing.contains(e.getPlayer())) {OrbMain.getInstance().leftDuringView.add(e.getPlayer().getUniqueId().toString());}
     if (OrbMain.getInstance().waitingManual.contains(e.getPlayer())) {OrbMain.getInstance().waitingManual.remove(e.getPlayer());}
     if (OrbMain.getInstance().sO.containsKey(e.getPlayer())) {OrbMain.getInstance().sO.remove(e.getPlayer());}
@@ -49,17 +51,20 @@ public class PlayerListeners implements Listener {
         int x = 0;
         int z = 0;
         if (OrbMain.getInstance().waitingManual.contains(e.getPlayer())) {
-            if (!e.getMessage().contains(" ")) {Util.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
+            if (!e.getMessage().contains(" ")) {
+                OrbUtil.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
             String[] xz = e.getMessage().split(" ");
-            if (xz.length != 2) {Util.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
+            if (xz.length != 2) {
+                OrbUtil.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
             try {
                 x = Integer.valueOf(xz[0]);
                 z = Integer.valueOf(xz[1]);
-            } catch (NumberFormatException ex) {Util.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
+            } catch (NumberFormatException ex) {
+                OrbUtil.getInstance().sendManualInstructionHelp(e.getPlayer()); return;}
             OrbMain.getInstance().sO.get(e.getPlayer()).setX(x);
             OrbMain.getInstance().sO.get(e.getPlayer()).setZ(z);
             OrbMain.getInstance().sO.get(e.getPlayer()).setXZSet(true);
-            Util.getInstance().sendManualCoordsSet(e.getPlayer(), OrbMain.getInstance().sO.get(e.getPlayer()));
+            OrbUtil.getInstance().sendManualCoordsSet(e.getPlayer(), OrbMain.getInstance().sO.get(e.getPlayer()));
             OrbMain.getInstance().waitingManual.remove(e.getPlayer());
             e.setCancelled(true);
         }
