@@ -1,5 +1,6 @@
 name: OrbitalCannon
 main: io.github.droppinganvil.OrbMain
+author: DroppingAnvil
 version: 1.0
 depend: [Essentials, WorldGuard]
 commands:
