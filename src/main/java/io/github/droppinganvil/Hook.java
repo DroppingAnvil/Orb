@@ -86,7 +86,7 @@ class Hook {
      boolean chargePlayer(Player p, Integer amount) {
         User u = OrbMain.getInstance().ess.getUser(p);
         if (!u.canAfford(BigDecimal.valueOf(amount))) {return false;}
-        u.takeMoney(BigDecimal.valueOf(amount));
+        if (!(u.takeMoney(BigDecimal.valueOf(amount)))) {return false;}
         return true;
     }
 }
