@@ -8,9 +8,6 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,9 +17,7 @@ import static org.bukkit.Bukkit.getServer;
 class Hook {
     static Hook instance = null;
     private Hook() {
-        if (econ == null) {
-            econ = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class).getProvider();
-        }
+        econ = Bukkit.getServer().getServicesManager().getRegistration(Economy.class).getProvider();
     }
     private VanishPlugins vPlugin = null;
     private boolean fPlugin = false;
@@ -64,13 +59,13 @@ class Hook {
             return false;
         }
         if (vPlugin == VanishPlugins.Essentials) {
-            if (OrbMain.getInstance().ess.getUser(player).isVanished()) {return true;} else {return false;}
+            return OrbMain.ess.getUser(player).isVanished();
         }
         return false;
     }
     boolean isPlayerVulnerable(Player player) {
         //God check
-        if (OrbMain.getInstance().ess.getUser(player).isGodModeEnabled()) {return false;}
+        if (OrbMain.ess.getUser(player).isGodModeEnabled()) {return false;}
         //Vanish check
         if (isVanished(player)) {return false;}
         //Safezones check
@@ -88,11 +83,9 @@ class Hook {
         //Vanilla MC Checks
         if (player.isDead()) {return false;}
         if (player.getGameMode() != GameMode.SURVIVAL) {return false;}
-        if (!OrbUtil.getInstance().isOnSurface(player)) {return false;}
-        return true;
+        return OrbUtil.getInstance().isOnSurface(player);
     }
      boolean chargePlayer(Player p, Integer amount) {
-        if (econ.withdrawPlayer(Bukkit.getOfflinePlayer(p.getUniqueId()), amount).transactionSuccess()) {return true;}
-        return false;
-    }
+         return econ.withdrawPlayer(Bukkit.getOfflinePlayer(p.getUniqueId()), amount).transactionSuccess();
+     }
 }

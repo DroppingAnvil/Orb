@@ -23,7 +23,7 @@ public class MainMenu implements Menu {
     private ItemStack fill;
     private ItemStack back;
     private ItemStack advance;
-    private HashMap<Integer, ItemStack> imap = new HashMap<>();
+    private HashMap<Integer, ItemStack> imap = new HashMap<Integer, ItemStack>();
     private HashMap<Integer, Options> map = new HashMap<Integer, Options>();
     public MainMenu(Player p) {
         player = p;
@@ -169,7 +169,7 @@ public class MainMenu implements Menu {
                 int index = 0;
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (Hook.getInstance().isPlayerVulnerable(p)) {
-                        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                        ItemStack head = new ItemStack(XMaterial.matchXMaterial(Material.LEGACY_SKULL_ITEM).parseMaterial(), 1, (short) 3);
                         SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
                         skullMeta.setOwner(p.getName());
                         skullMeta.setDisplayName(p.getName());

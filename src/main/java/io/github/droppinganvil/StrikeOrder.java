@@ -41,6 +41,7 @@ public class StrikeOrder {
                     OrbUtil.getInstance().makeView(owner, viewLoc, this);
                     OrbUtil.getInstance().summonHelix(strikeloc);
                     while (booms > 0) {
+                        strikeloc = new Location(w, x, w.getHighestBlockYAt(x, z), z);
                         w.createExplosion(strikeloc, OrbMain.getInstance().getConfig().getInt("Limits.TNTPower"));
                         booms--;
                     }

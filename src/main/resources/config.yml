@@ -1,6 +1,6 @@
 ### This is the name the plugin will use when logging and will be the start of the permission ###
 ### Example Name: 'SaberCannon' means that permissions will be sabercannon.node ###
-Name: 'SaberCannon'
+Name: 'Orbital Cannon'
 ### If a player carries this item they cannot be automatically targeted half implemented needs speed improvements! ###
 GhostItem:
   Material: 'NETHER_STAR'
