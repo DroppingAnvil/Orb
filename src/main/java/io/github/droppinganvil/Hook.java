@@ -1,22 +1,29 @@
 package io.github.droppinganvil;
 
-import com.earth2me.essentials.User;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.bukkit.Bukkit.getServer;
+
 class Hook {
     static Hook instance = null;
-    private Hook() {  }
+    private Hook() {
+        if (econ == null) {
+            econ = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class).getProvider();
+        }
+    }
     private VanishPlugins vPlugin = null;
     private boolean fPlugin = false;
     public WorldGuardPlugin wgp = null;
@@ -28,8 +35,9 @@ class Hook {
             instance = new Hook();
         return instance;
     }
+    public Economy econ;
     void determinePlugins() {
-        PluginManager pm = Bukkit.getServer().getPluginManager();
+        PluginManager pm = getServer().getPluginManager();
         if (pm.isPluginEnabled("SuperVanish")) {vPlugin = VanishPlugins.SuperVanish;}
         if (pm.isPluginEnabled("PremiumVanish")) {vPlugin = VanishPlugins.PremiumVanish;}
         if (vPlugin == null) {vPlugin = VanishPlugins.Essentials;}
@@ -84,7 +92,7 @@ class Hook {
         return true;
     }
      boolean chargePlayer(Player p, Integer amount) {
-        if (!(OrbMain.getInstance().ess.getUser(p).takeMoney(BigDecimal.valueOf(amount)).transactionSuccess())) {return false;}
-        return true;
+        if (econ.withdrawPlayer(Bukkit.getOfflinePlayer(p.getUniqueId()), amount).transactionSuccess()) {return true;}
+        return false;
     }
 }
