@@ -42,9 +42,9 @@ public class PlayerListeners implements Listener {
     }
     @EventHandler
     public void onGUI(InventoryClickEvent e) {
-        if (!(e.getClickedInventory().getHolder() instanceof Menu)) {return;}
+        if (!(e.getInventory().getHolder() instanceof Menu)) {return;}
         e.setCancelled(true);
-        ((Menu) e.getClickedInventory().getHolder()).onClick(e.getRawSlot(), e.getClick());
+        ((Menu) e.getInventory().getHolder()).onClick(e.getRawSlot(), e.getClick());
     }
     @EventHandler (priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent e) {
@@ -85,7 +85,7 @@ public class PlayerListeners implements Listener {
             e.setDeathMessage(null);
             OrbMain.getInstance().s.remove(e.getEntity());
             if (OrbMain.getInstance().getConfig().getBoolean("AutoRespawn")) {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(OrbMain.getInstance(), () -> e.getEntity().spigot().respawn(), 1L);
+                //Bukkit.getScheduler().scheduleSyncDelayedTask(OrbMain.getInstance(), () -> e.getEntity().spigot.respawn(), 1L);
             }
         }
     }

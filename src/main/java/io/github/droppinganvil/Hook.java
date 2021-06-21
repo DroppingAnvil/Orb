@@ -1,7 +1,13 @@
 package io.github.droppinganvil;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -21,7 +27,6 @@ class Hook {
     }
     private VanishPlugins vPlugin = null;
     private boolean fPlugin = false;
-    public WorldGuardPlugin wgp = null;
     public List<String> bR = new ArrayList<String>();
     public boolean saberFactions = false;
     static public Hook getInstance()
@@ -73,13 +78,12 @@ class Hook {
             if (FactionHook.isLocDenied(player)) {return false;}
         }
         //WorldGuard check
-            Iterator<ProtectedRegion> i = wgp.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).getRegions().iterator();
-            while (i.hasNext()) {
-                if (bR.contains(i.next().getId())) {
-                    return false;
-                }
-                i.remove();
-            }
+        final RegionContainer rg = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        final RegionQuery query = rg.createQuery();
+            ApplicableRegionSet arg = query.getApplicableRegions(BukkitAdapter.adapt(player.getLocation())); // Gets Null (line 20)
+        for (ProtectedRegion r : arg.getRegions()) {
+            if (bR.contains(r.getId())) return false;
+        }
         //Vanilla MC Checks
         if (player.isDead()) {return false;}
         if (player.getGameMode() != GameMode.SURVIVAL) {return false;}

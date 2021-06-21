@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class OrbMain extends JavaPlugin {
-    public String name = "SaberCannon";
+    public String name = "AnvilCannon";
     public static OrbMain instance;
     public OrbMain() {
         instance = this;
@@ -58,7 +58,6 @@ public class OrbMain extends JavaPlugin {
         leftDuringView = leavers.getStringList("LeftInView");
         OrbUtil.getInstance().ghostItem = OrbUtil.getInstance().getGhostItem();
         Hook.getInstance().bR.addAll(getConfig().getStringList("WorldGuard.BlacklistedRegions"));
-        Hook.getInstance().wgp = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
     }
     @Override
     public void onDisable() {

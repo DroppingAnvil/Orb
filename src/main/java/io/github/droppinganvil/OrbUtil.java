@@ -132,7 +132,8 @@ class OrbUtil {
             double x = radius * Math.cos(y);
             double z = radius * Math.sin(y);
             Location locc = new Location(loc.getWorld(), loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
-            loc.getWorld().playEffect(locc, Effect.COLOURED_DUST, 1);
+            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 194, 255), 1);
+            loc.getWorld().spawnParticle(Particle.REDSTONE, locc, 50, dustOptions);
         }
     }
     public void sendForbiddenRegion(Player player) {

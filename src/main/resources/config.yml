@@ -1,6 +1,6 @@
 ### This is the name the plugin will use when logging and will be the start of the permission ###
-### Example Name: 'SaberCannon' means that permissions will be sabercannon.node ###
-Name: 'SaberCannon'
+### Example Name: 'AnvilCannon' means that permissions will be anvilcannon.node ###
+Name: 'AnvilCannon'
 ### If a player carries this item they cannot be automatically targeted NOT IN USE ###
 GhostItem:
   Material: 'NETHER_STAR'
@@ -30,7 +30,7 @@ Title:
   Enabled: true
   Message: '&4Obliterated'
 ### Autorespawns players that have died to the cannon ###
-AutoRespawn: true
+AutoRespawn: false
 ### These settings change how the player gets to view their manual strikes ###
 PlayerView:
   ## PlayerView will be disabled if you are using Essentials vanish as it would reveal vanished players ##
