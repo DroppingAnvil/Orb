@@ -42,7 +42,9 @@ class Hook {
         if (pm.isPluginEnabled("PremiumVanish")) {vPlugin = VanishPlugins.PremiumVanish;}
         if (vPlugin == null) {vPlugin = VanishPlugins.Essentials;}
         if (pm.isPluginEnabled("Factions") && OrbMain.getInstance().getConfig().getBoolean("FactionsHook.Enabled")) {fPlugin = true; FactionHook.checkIfCanDisableTitles();}
-        if (saberFactions )
+        if (fPlugin) {
+            FactionHook.checkIfCanDisableTitles();
+        }
         logHooks();
     }
     String getFactionsString() {

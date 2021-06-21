@@ -24,6 +24,7 @@ class FactionHook {
         }
     }
     public static void tempDisableTitles(Player player) {
+        if (!Hook.getInstance().saberFactions) return;
         FPlayer f = FPlayers.getInstance().getByPlayer(player);
         if (f.hasTitlesEnabled()) {
             f.setTitlesEnabled(false);
